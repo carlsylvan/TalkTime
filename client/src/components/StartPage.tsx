@@ -1,16 +1,21 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useContext } from "react";
 
-import socket from "../socket/socket";
+// import socket from "../socket/socket";
 import { useNavigate } from "react-router-dom";
-
-export const StartPage = () => {
+import { SocketContext } from "../contexts/socketContext";
+interface IStartPageProps {
+  connectToSocket(): void
+}
+export const StartPage = (props:IStartPageProps) => {
   const [username, setUsername] = useState<string>("");
 
   const navigate = useNavigate();
-
+  const socket  = useContext(SocketContext)
   const initChat = () => {
     if (username === "") return;
-    socket.connect();
+    props.connectToSocket();
+    console.log(socket.connected);
+    
     socket.emit("join", username);
   };
 

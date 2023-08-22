@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import socket from "../socket/socket";
+// import socket from "../socket/socket";
 import { IChatGroup } from "../models/IChatGroup";
 import { IUser } from "../models/IUser";
 import { MessageInput } from "./MessageInput";
+import { SocketContext } from "../contexts/socketContext";
 
 export const ChatRoom = () => {
   const [ newUser, setNewUser ] = useState<IUser>(
@@ -20,7 +21,7 @@ export const ChatRoom = () => {
     messages: [],
   });
   const { id, room } = useParams();
-
+  const socket  = useContext(SocketContext)
   useEffect(() => {
     socket.on("chat_groups_updated", (chatGroups: IChatGroup[]) => {
       const chatGroup = chatGroups.find((group) => group.id === id);
