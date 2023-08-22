@@ -3,22 +3,37 @@ import { IUser } from "../models/IUser";
 import { IChatGroup, IMessage } from "../models/IChatGroup";
 import { v4 as uuidv4 } from "uuid";
 
+const LOBBY_ID = "lobby-id";
+
 const users: IUser[] = [];
 
-const chatGroups: IChatGroup[] = [];
+const chatGroups: IChatGroup[] = [
+  {
+    id: LOBBY_ID,
+    name: "Lobby",
+    users: [],
+    messages: [],
+  },
+];
 
 const usersInLobby: IUser[] = [];
 
 export const activateTalkTimeSocket = (io: Server) => {
   io.on("connection", (socket: Socket) => {
+    console.log(io.sockets.adapter.rooms);
+    
     socket.on("join", (username: string) => {
       const user: IUser = { id: socket.id, username };
       users.push(user);
       usersInLobby.push(user);
       socket.emit("joined", user);
-
+      
       io.emit("new_user_in_lobby", user);
       io.emit("users_in_lobby_updated", usersInLobby);
+      console.log("user connected");
+      console.log(users);
+      
+      console.log(io.sockets.adapter.rooms);
     });
 
     socket.on("join_group", (groupId: string) => {
@@ -40,11 +55,23 @@ export const activateTalkTimeSocket = (io: Server) => {
 
     socket.on("send_message", (data: { groupId: string; content: string }) => {
       console.log(data.content);
-      
+      console.log(io.sockets.adapter.rooms);
       const user = users.find((u) => u.id === socket.id);
       if (!user) return;
 
-      const group = chatGroups.find((g) => g.id === data.groupId);
+      let group: IChatGroup | undefined = {
+        id: "",
+        name: "",
+        users: [],
+        messages: [],
+      };
+
+      if (data.groupId === LOBBY_ID) {
+        group = chatGroups[0];
+      } else {
+        group = chatGroups.find((g) => g.id === data.groupId);
+      }
+
       if (!group) return;
 
       const message: IMessage = {
@@ -92,15 +119,33 @@ export const activateTalkTimeSocket = (io: Server) => {
       if (!group) return;
 
       const userInGroupIndex = group.users.findIndex((u) => u.id === socket.id);
-      if (userInGroupIndex) {
+      if (userInGroupIndex !== -1) {
         group.users.splice(userInGroupIndex, 1);
       }
+
+      if (group.users.length === 0 && groupId !== LOBBY_ID) {
+        const groupIndex = chatGroups.findIndex((g) => g.id === groupId);
+        if (groupIndex !== -1) {
+          chatGroups.splice(groupIndex, 1);
+        }
+      }
+
+      console.log("Joining lobby:", LOBBY_ID);
+      socket.join(LOBBY_ID);
+      console.log("User added to lobby:", user);
+      usersInLobby.push(user);
+
       socket.leave(groupId);
 
-      usersInLobby.push(user);
+      const lobbyGroup = chatGroups.find((g) => g.id === LOBBY_ID);
+      if (lobbyGroup) {
+        lobbyGroup.users.push(user);
+      }
 
       socket.emit("left_group", groupId);
       io.emit("users_in_lobby_updated", usersInLobby);
+      io.emit("chat_groups_updated", chatGroups);
+      console.log(chatGroups);
     });
 
     socket.on("disconnect", () => {

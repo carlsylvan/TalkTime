@@ -1,28 +1,27 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import { StartPage } from "./components/StartPage";
-import { Lobby } from "./components/Lobby";
-import { ChatRoom } from "./components/ChatRoom";
+import { LoginPage } from "./components/LoginPage";
+import { MainPage } from "./components/MainPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>,
     children: [
-      // {
-      //   path: "/",
-      //   element: <StartPage></StartPage>,
-      //   index: true,
-      // },
+      {
+        path: "/",
+        element: <LoginPage></LoginPage>,
+        index: true,
+      },
       {
         path: ":room",
-        element: <ChatRoom></ChatRoom>,
+        element: <MainPage></MainPage>,
         // element: <Lobby></Lobby>,
       },
-      {
-        path: ":room/:id",
-        element: <ChatRoom></ChatRoom>,
-      },
+      // {
+      //   path: ":room/:id",
+      //   element: <ChatRoom></ChatRoom>,
+      // },
     ],
   },
 ]);

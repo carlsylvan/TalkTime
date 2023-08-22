@@ -6,7 +6,7 @@ import { IUser } from "../models/IUser";
 import { MessageInput } from "./MessageInput";
 import { SocketContext } from "../contexts/socketContext";
 
-export const ChatRoom = () => {
+export const MainPage = () => {
   const [ newUser, setNewUser ] = useState<IUser>(
     {
       id: "",
@@ -15,15 +15,16 @@ export const ChatRoom = () => {
   );
   const [usersInRoom, setUsersInRoom] = useState<IUser[]>([]);
   const [groupChat, setGroupChat] = useState<IChatGroup>({
-    id: "",
+    id: "lobby",
     name: "",
     users: usersInRoom,
     messages: [],
   });
   const { id, room } = useParams();
-  const socket  = useContext(SocketContext)
+  const socketManager  = useContext(SocketContext);
+
   useEffect(() => {
-    socket.on("chat_groups_updated", (chatGroups: IChatGroup[]) => {
+    socketManager.socket.on("chat_groups_updated", (chatGroups: IChatGroup[]) => {
       const chatGroup = chatGroups.find((group) => group.id === id);
       if (chatGroup) {
         console.log(chatGroup.name);
@@ -31,21 +32,22 @@ export const ChatRoom = () => {
         setGroupChat(chatGroup);
       }
     });
-    socket.on("message_received", (data) => {
+    socketManager.socket.on("message_received", (data) => {
+      console.log(data);
       const temp = {...groupChat};
       temp.messages.push(data);
       setGroupChat(temp);
     })
-  }, []);
+  }, [socketManager.socket]);
   const sendMessage = (msg:string) => {
-    socket.emit("send_message", {
+    
+    
+    socketManager.socket.emit("send_message", {
       groupId: groupChat.id,
       content: msg
-    })
+    });
   }
-  console.log(groupChat)
-  console.log(socket.connected);
-  
+
   return (
     <>
       <h2>Välkommen {newUser.username}!</h2>

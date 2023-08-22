@@ -3,20 +3,17 @@ import { ChangeEvent, useState, useContext } from "react";
 // import socket from "../socket/socket";
 import { useNavigate } from "react-router-dom";
 import { SocketContext } from "../contexts/socketContext";
-interface IStartPageProps {
-  connectToSocket(): void
-}
-export const StartPage = (props:IStartPageProps) => {
-  const [username, setUsername] = useState<string>("");
 
+
+export const LoginPage = () => {
+  const [username, setUsername] = useState<string>("");
   const navigate = useNavigate();
-  const socket  = useContext(SocketContext)
+  const socketManager  = useContext(SocketContext);
+
   const initChat = () => {
     if (username === "") return;
-    props.connectToSocket();
-    console.log(socket.connected);
-    
-    socket.emit("join", username);
+    socketManager.connect();
+    socketManager.socket.emit("join", username);
   };
 
   const handleJoinTalkTimeButton = () => {
@@ -37,3 +34,5 @@ export const StartPage = (props:IStartPageProps) => {
     </div>
   );
 };
+
+

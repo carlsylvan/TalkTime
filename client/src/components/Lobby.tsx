@@ -63,6 +63,7 @@ export const Lobby = () => {
         {showUsersInLobbyList}
       </div>
       <div>
+    
         <h3>Skapa en gruppchatt</h3>
         <input
           value={groupChatName}
