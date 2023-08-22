@@ -15,11 +15,12 @@ export const router = createBrowserRouter([
         index: true,
       },
       {
-        path: "lobby",
-        element: <Lobby></Lobby>,
+        path: ":room",
+        element: <ChatRoom></ChatRoom>,
+        // element: <Lobby></Lobby>,
       },
       {
-        path: "chat-room/:id",
+        path: ":room/:id",
         element: <ChatRoom></ChatRoom>,
       },
     ],

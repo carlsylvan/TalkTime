@@ -39,6 +39,8 @@ export const activateTalkTimeSocket = (io: Server) => {
     });
 
     socket.on("send_message", (data: { groupId: string; content: string }) => {
+      console.log(data.content);
+      
       const user = users.find((u) => u.id === socket.id);
       if (!user) return;
 
