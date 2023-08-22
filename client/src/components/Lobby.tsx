@@ -36,6 +36,12 @@ export const Lobby = () => {
     });
   }, []);
 
+  useEffect(() => {
+    socket.on("chat_groups_updated", (chatGroups: IChatGroup[]) => {
+      console.log(chatGroups);
+    });
+  }, []);
+
   const showUsersInLobbyList = usersInLobby.map((user: IUser) => {
     return (
       <UsersInLobbyList key={user.id} lobbyUserList={user}></UsersInLobbyList>
