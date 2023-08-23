@@ -18,11 +18,12 @@ const chatGroups: IChatGroup[] = [
 
 const usersInLobby: IUser[] = [];
 
+
+
 export const activateTalkTimeSocket = (io: Server) => {
   io.on("connection", (socket: Socket) => {
-    console.log(io.sockets.adapter.rooms);
-    
     socket.on("join", (username: string) => {
+      
       const user: IUser = { id: socket.id, username };
       users.push(user);
       usersInLobby.push(user);
@@ -31,7 +32,7 @@ export const activateTalkTimeSocket = (io: Server) => {
       io.emit("new_user_in_lobby", user);
       io.emit("users_in_lobby_updated", usersInLobby);
       console.log("user connected");
-      console.log(users);
+      console.log(socket);
       
     });
     
@@ -51,9 +52,15 @@ export const activateTalkTimeSocket = (io: Server) => {
       
       group.users.push(user);
       socket.join(groupId);
+      io.emit("chat_groups_updated", chatGroups);
       console.log("connected to: ", groupId);
       socket.emit("joined_group", group);
       console.log(io.sockets.adapter.rooms);
+      console.log(chatGroups[0].users);
+      
+      console.log(Array.from(io.sockets.adapter.rooms.keys()));
+ 
+      
     });
 
     socket.on("send_message", (data: { groupId: string; content: string }) => {
@@ -80,7 +87,7 @@ export const activateTalkTimeSocket = (io: Server) => {
       const message: IMessage = {
         user,
         content: data.content,
-        timestamp: new Date(),
+        timestamp: new Date().getHours() + ":" + new Date().getMinutes(),
       };
       group.messages.push(message);
 

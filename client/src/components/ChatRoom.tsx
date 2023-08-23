@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { RoomUsers } from "./RoomUsers";
 
 export const ChatRoom = () => {
-    const [usersInRoom, setUsersInRoom] = useState<IUser[]>([]);
+  const [usersInRoom, setUsersInRoom] = useState<IUser[]>([]);
   const [groupChat, setGroupChat] = useState<IChatGroup>({
     id: "lobby-id",
     name: "Lobby",
@@ -20,17 +20,20 @@ export const ChatRoom = () => {
     socket.on("chat_groups_updated", (chatGroups: IChatGroup[]) => {
       const chatGroup = chatGroups.find((group) => group.id === id);
       if (chatGroup) {
+        setUsersInRoom(chatGroup.users);
         console.log(chatGroup.name);
-
         setGroupChat(chatGroup);
       }
     });
     socket.on("message_received", (data:IMessage) => {
+
       const temp = {...groupChat};
       temp.messages.push(data);
       setGroupChat(temp);
     })
   }, [socket]);
+  console.log(groupChat);
+  
   const sendMessage = (msg:string) => {
     
     
@@ -41,7 +44,7 @@ export const ChatRoom = () => {
   }
     return (
         <div>
-            <Messages />
+            <Messages messageList = { groupChat.messages }/>
             <MessageInput sendMessage = { sendMessage }/>
             <RoomUsers usersInRoom = { usersInRoom }/>
         </div>

@@ -1,11 +1,10 @@
+
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import socket from "../socket/socket";
-import { IChatGroup, IMessage } from "../models/IChatGroup";
 import { IUser } from "../models/IUser";
-import { MessageInput } from "./MessageInput";
 import { ActiveRooms } from "./ActiveRooms";
 import { ChatRoom } from "./ChatRoom";
+import { IChatGroup } from "../models/IChatGroup";
+import socket from "../socket/socket";
 
 export const MainPage = () => {
   const [ newUser, setNewUser ] = useState<IUser>(
@@ -14,12 +13,16 @@ export const MainPage = () => {
       username: ""
     }
   );
-
-
+  const [ chatGroups, setChatGroups ] = useState<IChatGroup[]>([]);
+  useEffect(()=>{
+    socket.on("chat_groups_updated", (chatGroups: IChatGroup[]) => {
+        setChatGroups(chatGroups);
+    });
+  }, [])
   return (
     <>
       <h2>Välkommen {newUser.username}!</h2>
-      <ActiveRooms />
+      <ActiveRooms chatGroups = { chatGroups }/>
       <ChatRoom />
       
       {/* <div>

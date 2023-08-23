@@ -3,6 +3,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import socket from "./socket/socket";
 import { IUser } from "./models/IUser";
+import { UserContext } from "./contexts/userContext";
 
 
 function App() {
@@ -10,12 +11,16 @@ function App() {
   useEffect(() => {
     socket.on("new_user_in_lobby", (user: IUser) => {
       console.log(user);
-      setUser(user);
     });
+    socket.on("joined", (user) => {
+      setUser(user);
+    })
   }, [socket]);
   return (
     <>
-      <Outlet></Outlet>
+      <UserContext.Provider value={user}>
+        <Outlet></Outlet>
+      </UserContext.Provider>
     </>
 
 

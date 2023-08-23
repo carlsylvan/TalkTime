@@ -3,7 +3,7 @@ import { IUser } from "./IUser";
 export interface IMessage {
   user: IUser;
   content: string;
-  timestamp: Date;
+  timestamp: string;
 }
 
 export interface IChatGroup {
