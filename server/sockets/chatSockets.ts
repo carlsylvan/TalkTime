@@ -33,28 +33,31 @@ export const activateTalkTimeSocket = (io: Server) => {
       console.log("user connected");
       console.log(users);
       
-      console.log(io.sockets.adapter.rooms);
     });
-
+    
     socket.on("join_group", (groupId: string) => {
+      
+      
       const user = users.find((u) => u.id === socket.id);
       if (!user) return;
-
+      
       const lobbyIndex = usersInLobby.findIndex((u) => u.id === user.id);
       if (lobbyIndex !== -1) {
         usersInLobby.splice(lobbyIndex, 1);
       }
-
+      
       const group = chatGroups.find((g) => g.id === groupId);
       if (!group) return;
-
+      
       group.users.push(user);
       socket.join(groupId);
+      console.log("connected to: ", groupId);
       socket.emit("joined_group", group);
+      console.log(io.sockets.adapter.rooms);
     });
 
     socket.on("send_message", (data: { groupId: string; content: string }) => {
-      console.log(data.content);
+      console.log(data.groupId);
       console.log(io.sockets.adapter.rooms);
       const user = users.find((u) => u.id === socket.id);
       if (!user) return;
@@ -82,6 +85,8 @@ export const activateTalkTimeSocket = (io: Server) => {
       group.messages.push(message);
 
       io.to(data.groupId).emit("message_received", message);
+      console.log(message);
+      
     });
 
     socket.on("create_group", (groupName: string) => {

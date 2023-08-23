@@ -1,26 +1,25 @@
 import { ChangeEvent, useState, useContext } from "react";
 
-// import socket from "../socket/socket";
+import socket from "../socket/socket";
 import { useNavigate } from "react-router-dom";
-import { SocketContext } from "../contexts/socketContext";
 
 
 export const LoginPage = () => {
   const [username, setUsername] = useState<string>("");
   const navigate = useNavigate();
-  const socketManager  = useContext(SocketContext);
 
   const initChat = () => {
     if (username === "") return;
-    socketManager.connect();
-    socketManager.socket.emit("join", username);
+    socket.connect();
+    socket.emit("join", username);
   };
 
   const handleJoinTalkTimeButton = () => {
     initChat();
     if (username === "") return;
     setUsername("");
-    navigate("lobby");
+    navigate("/lobby/lobby-id");
+    socket.emit("join_group", "lobby-id");
   };
 
   const handleJoinTalkTimeInput = (e: ChangeEvent<HTMLInputElement>) => {

@@ -14,14 +14,10 @@ export const router = createBrowserRouter([
         index: true,
       },
       {
-        path: ":room",
+        path: "/:room/:id",
         element: <MainPage></MainPage>,
         // element: <Lobby></Lobby>,
       },
-      // {
-      //   path: ":room/:id",
-      //   element: <ChatRoom></ChatRoom>,
-      // },
     ],
   },
 ]);

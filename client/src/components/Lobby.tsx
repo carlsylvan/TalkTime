@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { IUser } from "../models/IUser";
 import socket from "../socket/socket";
-import { UsersInLobbyList } from "./UsersInLobbyList";
+import { RoomUsers } from "./RoomUsers";
 import { useNavigate } from "react-router-dom";
 import { IChatGroup } from "../models/IChatGroup";
 
@@ -36,11 +36,11 @@ export const Lobby = () => {
     });
   }, []);
 
-  const showUsersInLobbyList = usersInLobby.map((user: IUser) => {
-    return (
-      <UsersInLobbyList key={user.id} lobbyUserList={user}></UsersInLobbyList>
-    );
-  });
+  // const showUsersInLobbyList = usersInLobby.map((user: IUser) => {
+  //   return (
+  //     <RoomUsers key={user.id} lobbyUserList={user}></RoomUsers>
+  //   );
+  // });
 
   const handleCreateGroupChatButton = () => {
     if (groupChatName !== "") {
@@ -60,7 +60,7 @@ export const Lobby = () => {
       <h2>Välkommen {newUser.username}!</h2>
       <div>
         <h3>Användare i lobbyn</h3>
-        {showUsersInLobbyList}
+        {/* {showUsersInLobbyList} */}
       </div>
       <div>
     
