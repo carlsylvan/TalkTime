@@ -1,11 +1,11 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useContext } from "react";
 
 import socket from "../socket/socket";
 import { useNavigate } from "react-router-dom";
 
-export const StartPage = () => {
-  const [username, setUsername] = useState<string>("");
 
+export const LoginPage = () => {
+  const [username, setUsername] = useState<string>("");
   const navigate = useNavigate();
 
   const initChat = () => {
@@ -18,7 +18,8 @@ export const StartPage = () => {
     initChat();
     if (username === "") return;
     setUsername("");
-    navigate("lobby");
+    navigate("/lobby/lobby-id");
+    socket.emit("join_group", "lobby-id");
   };
 
   const handleJoinTalkTimeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,3 +33,5 @@ export const StartPage = () => {
     </div>
   );
 };
+
+
