@@ -1,11 +1,11 @@
 
 import { useEffect, useState } from "react";
-import { IUser } from "../models/IUser";
-import { ActiveRooms } from "./ActiveRooms";
-import { ChatRoom } from "./ChatRoom";
-import { IChatGroup } from "../models/IChatGroup";
-import socket from "../socket/socket";
-
+import { IUser } from "../../models/IUser";
+import { ActiveRooms } from "../ActiveRooms/ActiveRooms";
+import { ChatRoom } from "../ChatRoom/ChatRoom";
+import { IChatGroup } from "../../models/IChatGroup";
+import socket from "../../socket/socket";
+import "./MainPage.scss";
 export const MainPage = () => {
   const [ newUser, setNewUser ] = useState<IUser>(
     {
@@ -20,8 +20,8 @@ export const MainPage = () => {
     });
   }, [])
   return (
-    <>
-      <h2>Välkommen {newUser.username}!</h2>
+    <div className="main-container">
+      {/* <h2>Välkommen {newUser.username}!</h2> */}
       <ActiveRooms chatGroups = { chatGroups }/>
       <ChatRoom />
       
@@ -39,7 +39,7 @@ export const MainPage = () => {
         />
         <button onClick={handleCreateGroupChatButton}>Skapa</button> */}
       {/* </div> */}
-    </>
+    </div>
   )
   // <h2>Välkommen till {groupChat.name}! Nu kan du börja chatta</h2>;
 };

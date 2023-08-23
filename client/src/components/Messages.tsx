@@ -13,11 +13,20 @@ export const Messages = (props: IMessagesProps) => {
     
     return (
         <div>
-            MessageList
             <ul>
                 {props.messageList.map((e, i) => 
-                <li key={i} style={ user.id ===e.user.id ? {backgroundColor: "green"} : {backgroundColor: "blue"}}>
-                    {e.content} (skickat av: {e.user.username} tid: {e.timestamp})
+                <li key={i} className = { user.id ===e.user.id ? "myMessages" : ""}>
+                    <div>
+                        <span>
+                            {e.timestamp}
+                        </span>
+                        <div>
+                            <span>
+                                {e.user.username}
+                            </span>
+                            {e.content}
+                        </div>
+                    </div>
                 </li>)}
             </ul>
         </div>

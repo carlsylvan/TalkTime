@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { IChatGroup, IMessage } from "../models/IChatGroup";
-import { IUser } from "../models/IUser";
-import socket from "../socket/socket";
-import { MessageInput } from "./MessageInput"
-import { Messages } from "./Messages"
+import { IChatGroup, IMessage } from "../../models/IChatGroup";
+import { IUser } from "../../models/IUser";
+import socket from "../../socket/socket";
+import { MessageInput } from "../MessageInput"
+import { Messages } from "../Messages"
 import { useParams } from "react-router-dom";
-import { RoomUsers } from "./RoomUsers";
-
+import { RoomUsers } from "../RoomUsers";
+import "./ChatRoom.scss";
 export const ChatRoom = () => {
   const [usersInRoom, setUsersInRoom] = useState<IUser[]>([]);
   const [groupChat, setGroupChat] = useState<IChatGroup>({
@@ -45,10 +45,15 @@ export const ChatRoom = () => {
     });
   }
     return (
-        <div>
-            <Messages messageList = { groupChat.messages }/>
-            <MessageInput sendMessage = { sendMessage }/>
-            <RoomUsers usersInRoom = { usersInRoom }/>
+        <div className="chat-room">
+            <div className="chat-room-messages">
+              <Messages messageList = { groupChat.messages }/>
+              <MessageInput sendMessage = { sendMessage }/>
+            </div>
+            <div className="chat-room-users">
+              <RoomUsers usersInRoom = { usersInRoom }/>
+            </div>
+
         </div>
     )
 }
