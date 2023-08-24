@@ -7,23 +7,30 @@ import { Messages } from "../Messages";
 import { useParams } from "react-router-dom";
 import { RoomUsers } from "../RoomUsers";
 import "./ChatRoom.scss";
-export const ChatRoom = () => {
+
+interface IChatRoomProps {
+  chatGroups: IChatGroup []
+}
+export const ChatRoom = (props:IChatRoomProps) => {
+
+  const { id, room } = useParams();
+  const chatGroup = props.chatGroups.find((group) => group.id === id);
+  
   const [usersInRoom, setUsersInRoom] = useState<IUser[]>([]);
-  const [groupChat, setGroupChat] = useState<IChatGroup>({
+
+  const [groupChat, setGroupChat] = useState<IChatGroup>(chatGroup || {
     id: "lobby-id",
     name: "Lobby",
     users: usersInRoom,
     messages: [],
   });
-  const { id } = useParams();
+  console.log(id);
+  
   useEffect(() => {
     socket.on("chat_groups_updated", (chatGroups: IChatGroup[]) => {
-      console.log(chatGroups);
-
       const chatGroup = chatGroups.find((group) => group.id === id);
       if (chatGroup) {
         setUsersInRoom(chatGroup.users);
-        setGroupChat(chatGroup);
       }
     });
     socket.on("message_received", (data: IMessage) => {
@@ -32,10 +39,8 @@ export const ChatRoom = () => {
       setGroupChat(temp);
     })
   }, []);
-  
+
   const sendMessage = (msg:string) => {
-    
-    
     socket.emit("send_message", {
       groupId: groupChat.id,
       content: msg,

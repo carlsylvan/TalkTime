@@ -6,13 +6,13 @@ import { ChatGroupContext, IContext } from "../contexts/chatGroupContext";
 export const CreateRoom = () => {
   const [roomname, setRoomname] = useState<string>("");
   const [createroom, setCreateroom] = useState<boolean>(false);
-  const context = useContext<IContext>(ChatGroupContext);
+  // const context = useContext<IContext>(ChatGroupContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     socket.on("group_created", (group) => {
       navigate(`/${group.name}/${group.id}`);
-      context.addGroup(group.id, group.name);
+      // context.addGroup(group.id, group.name);
     });
 
     // socket.on("joined_group", (group) => {

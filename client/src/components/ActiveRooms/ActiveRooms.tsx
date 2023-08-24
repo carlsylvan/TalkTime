@@ -1,11 +1,15 @@
-import { useContext } from "react";
-import { ChatGroupContext, IContext } from "../../contexts/chatGroupContext";
+// import { useContext } from "react";
+// import { ChatGroupContext, IContext } from "../../contexts/chatGroupContext";
 // import { IChatGroup } from "../../models/IChatGroup";
 import { CreateRoom } from "../CreateRoom";
 import "./ActiveRooms.scss";
+import { IChatGroup } from "../../models/IChatGroup";
 
-export const ActiveRooms = () => {
-  const context = useContext<IContext>(ChatGroupContext);
+interface IActiveRoomsProps {
+    chatGroups: IChatGroup []
+}
+export const ActiveRooms = (props:IActiveRoomsProps) => {
+//   const context = useContext<IContext>(ChatGroupContext);
   const handleClick = (group: string) => {
     console.log("Joined: ", group);
   };
@@ -15,7 +19,7 @@ export const ActiveRooms = () => {
       <div className="active-rooms">
         <p>Aktiva Rum</p>
         <ul>
-          {context.chatGroups.map((e, i) => (
+          {props.chatGroups.map((e, i) => (
             <li
               key={i}
               onClick={() => {

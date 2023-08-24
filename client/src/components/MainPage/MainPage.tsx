@@ -16,23 +16,20 @@ export const MainPage = () => {
     socket.on("chat_groups_updated", (chatGroups: IChatGroup[]) => {
       setChatGroups(chatGroups);
     });
+    socket.on("joined_group", (group:IChatGroup) => {
+      setChatGroups([...chatGroups,group]);
+    })
   }, []);
-  const addGroup = (id: string, name: string) => {
-    const newGroup = {
-      id,
-      name,
-      users: [],
-      messages: [],
-    };
-    setChatGroups([...chatGroups, newGroup]);
-  };
+  // const addGroup = (id: string, name: string) => {
+  //   socket.on("joined_group", (group)=>{
+  //     setChatGroups([...chatGroups, group]);
+  //   })
+  // };
   return (
     <div className="main-container">
       {/* <h2>Välkommen {newUser.username}!</h2> */}
-      <ChatGroupContext.Provider value={{ chatGroups, addGroup }}>
-        <ActiveRooms />
-        <ChatRoom />
-      </ChatGroupContext.Provider>
+        <ActiveRooms chatGroups = { chatGroups }/>
+        <ChatRoom chatGroups = { chatGroups }/>
 
       {/* <div>
         <h3>Användare i lobbyn</h3>
