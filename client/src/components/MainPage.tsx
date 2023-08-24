@@ -1,30 +1,29 @@
-
 import { useEffect, useState } from "react";
 import { IUser } from "../models/IUser";
 import { ActiveRooms } from "./ActiveRooms";
 import { ChatRoom } from "./ChatRoom";
 import { IChatGroup } from "../models/IChatGroup";
 import socket from "../socket/socket";
+import { CreateRoom } from "./CreateRoom";
 
 export const MainPage = () => {
-  const [ newUser, setNewUser ] = useState<IUser>(
-    {
-      id: "",
-      username: ""
-    }
-  );
-  const [ chatGroups, setChatGroups ] = useState<IChatGroup[]>([]);
-  useEffect(()=>{
+  const [newUser, setNewUser] = useState<IUser>({
+    id: "",
+    username: "",
+  });
+  const [chatGroups, setChatGroups] = useState<IChatGroup[]>([]);
+  useEffect(() => {
     socket.on("chat_groups_updated", (chatGroups: IChatGroup[]) => {
-        setChatGroups(chatGroups);
+      setChatGroups(chatGroups);
     });
-  }, [])
+  }, []);
   return (
     <>
       <h2>Välkommen {newUser.username}!</h2>
-      <ActiveRooms chatGroups = { chatGroups }/>
+      <ActiveRooms chatGroups={chatGroups} />
       <ChatRoom />
-      
+      <CreateRoom></CreateRoom>
+
       {/* <div>
         <h3>Användare i lobbyn</h3>
         {showUsersInLobbyList}
@@ -40,6 +39,6 @@ export const MainPage = () => {
         <button onClick={handleCreateGroupChatButton}>Skapa</button> */}
       {/* </div> */}
     </>
-  )
+  );
   // <h2>Välkommen till {groupChat.name}! Nu kan du börja chatta</h2>;
 };
