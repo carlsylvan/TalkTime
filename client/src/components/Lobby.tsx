@@ -11,9 +11,11 @@ export const Lobby = () => {
     return savedUser ? JSON.parse(savedUser) : { id: "", username: "" };
   });
 
-  const [usersInLobby, setUsersInLobby] = useState<IUser[]>(() => {
-    const savedUsersInLobbyList = sessionStorage.getItem("lobbyList");
-    return savedUsersInLobbyList ? JSON.parse(savedUsersInLobbyList) : [];
+  const [group, setGroup] = useState<IChatGroup>({
+    id: "",
+    name: "",
+    users: [],
+    messages: [],
   });
 
   const [groupChatName, setGroupChatName] = useState<string>("");
@@ -29,10 +31,10 @@ export const Lobby = () => {
   }, []);
 
   useEffect(() => {
-    socket.on("users_in_lobby_updated", (usersInLobby) => {
-      console.log(usersInLobby);
-      setUsersInLobby(usersInLobby);
-      sessionStorage.setItem("lobbyList", JSON.stringify(usersInLobby));
+    socket.on("users_in_group_updated", (group: IChatGroup) => {
+      console.log(group);
+      setGroup(group);
+      sessionStorage.setItem("lobbyList", JSON.stringify(group));
     });
   }, []);
 
@@ -42,7 +44,7 @@ export const Lobby = () => {
     });
   }, []);
 
-  const showUsersInLobbyList = usersInLobby.map((user: IUser) => {
+  const showUsersInLobbyList = group.users.map((user: IUser) => {
     return (
       <UsersInLobbyList key={user.id} lobbyUserList={user}></UsersInLobbyList>
     );
