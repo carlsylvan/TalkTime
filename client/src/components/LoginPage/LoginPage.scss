@@ -1,0 +1,29 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    form {
+        width: 50%;
+        border-radius: 2px;
+        box-shadow: 0 0 1rem rgba($color: #000000, $alpha: 0.3);
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 5px;
+        padding: 1rem;
+        h3 {
+            text-align: center;
+            width: 100%;
+            font-weight: 400;
+            font-size: 18px;
+        }
+        button {
+            width: 100%;
+            &:hover {
+                opacity: 0.3;
+            }
+        }
+        input, button {
+            padding: 5px;
+        }
+    }
+}

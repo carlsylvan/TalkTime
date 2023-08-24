@@ -49,6 +49,7 @@ export const activateTalkTimeSocket = (io: Server) => {
 
       group.users.push(user);
       socket.join(groupId);
+      io.emit("chat_groups_updated", chatGroups);
       socket.emit("joined_group", group);
     });
 
@@ -74,7 +75,7 @@ export const activateTalkTimeSocket = (io: Server) => {
       const message: IMessage = {
         user,
         content: data.content,
-        timestamp: new Date(),
+        timestamp: new Date().getHours() +":"+ new Date().getMinutes(),
       };
       group.messages.push(message);
 
@@ -108,6 +109,7 @@ export const activateTalkTimeSocket = (io: Server) => {
       socket.join(id);
 
       socket.emit("group_created", group);
+      
       socket.emit("joined_group", group);
 
       io.emit("users_in_lobby_updated", usersInLobby);
