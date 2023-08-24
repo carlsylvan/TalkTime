@@ -23,18 +23,15 @@ export const ChatRoom = () => {
       const chatGroup = chatGroups.find((group) => group.id === id);
       if (chatGroup) {
         setUsersInRoom(chatGroup.users);
-        console.log(chatGroup.name);
         setGroupChat(chatGroup);
       }
     });
     socket.on("message_received", (data:IMessage) => {
-
       const temp = {...groupChat};
       temp.messages.push(data);
       setGroupChat(temp);
     })
-  }, [socket]);
-  console.log(groupChat);
+  }, []);
   
   const sendMessage = (msg:string) => {
     

@@ -12,6 +12,7 @@ export const LoginPage = () => {
     if (username === "") return;
     socket.connect();
     socket.emit("join", username);
+    socket.emit("join_group", "lobby-id");
   };
 
   const handleJoinTalkTimeButton = (e:FormEvent) => {
@@ -20,7 +21,6 @@ export const LoginPage = () => {
     if (username === "") return;
     setUsername("");
     navigate("/lobby/lobby-id");
-    socket.emit("join_group", "lobby-id");
   };
 
   return (

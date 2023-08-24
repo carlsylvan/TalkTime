@@ -23,21 +23,15 @@ const usersInLobby: IUser[] = [];
 export const activateTalkTimeSocket = (io: Server) => {
   io.on("connection", (socket: Socket) => {
     socket.on("join", (username: string) => {
-      
       const user: IUser = { id: socket.id, username };
       users.push(user);
-      usersInLobby.push(user);
+      // usersInLobby.push(user);
       socket.emit("joined", user);
-      
-      io.emit("new_user_in_lobby", user);
-      io.emit("users_in_lobby_updated", usersInLobby);
-      console.log("user connected");
-      console.log(socket);
-      
+      // io.emit("new_user_in_lobby", user);
+      // io.emit("users_in_lobby_updated", usersInLobby);
     });
     
     socket.on("join_group", (groupId: string) => {
-      
       
       const user = users.find((u) => u.id === socket.id);
       if (!user) return;
@@ -53,19 +47,10 @@ export const activateTalkTimeSocket = (io: Server) => {
       group.users.push(user);
       socket.join(groupId);
       io.emit("chat_groups_updated", chatGroups);
-      console.log("connected to: ", groupId);
       socket.emit("joined_group", group);
-      console.log(io.sockets.adapter.rooms);
-      console.log(chatGroups[0].users);
-      
-      console.log(Array.from(io.sockets.adapter.rooms.keys()));
- 
-      
     });
 
     socket.on("send_message", (data: { groupId: string; content: string }) => {
-      console.log(data.groupId);
-      console.log(io.sockets.adapter.rooms);
       const user = users.find((u) => u.id === socket.id);
       if (!user) return;
 
@@ -76,11 +61,11 @@ export const activateTalkTimeSocket = (io: Server) => {
         messages: [],
       };
 
-      if (data.groupId === LOBBY_ID) {
-        group = chatGroups[0];
-      } else {
+      // if (data.groupId === LOBBY_ID) {
+      //   group = chatGroups[0];
+      // } else {
         group = chatGroups.find((g) => g.id === data.groupId);
-      }
+      // }
 
       if (!group) return;
 
@@ -162,13 +147,16 @@ export const activateTalkTimeSocket = (io: Server) => {
 
     socket.on("disconnect", () => {
       const user = users.find((u) => u.id === socket.id);
-      if (!user) return;
 
+      if (!user) return;
+      const userIndex = users.findIndex((u) => u.id===socket.id);
+      if(userIndex !== -1) {
+        users.splice(userIndex, 1);
+      }
       const lobbyIndex = usersInLobby.findIndex((u) => u.id === user.id);
       if (lobbyIndex !== -1) {
         usersInLobby.splice(lobbyIndex, 1);
       }
-
       io.emit("users_in_lobby_updated", usersInLobby);
     });
   });
