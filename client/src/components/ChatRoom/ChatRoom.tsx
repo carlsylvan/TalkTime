@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { IChatGroup, IMessage } from "../../models/IChatGroup";
 import { IUser } from "../../models/IUser";
 import socket from "../../socket/socket";
-import { MessageInput } from "../MessageInput"
-import { Messages } from "../Messages"
+import { MessageInput } from "../MessageInput";
+import { Messages } from "../Messages";
 import { useParams } from "react-router-dom";
 import { RoomUsers } from "../RoomUsers";
 import "./ChatRoom.scss";
@@ -26,8 +26,8 @@ export const ChatRoom = () => {
         setGroupChat(chatGroup);
       }
     });
-    socket.on("message_received", (data:IMessage) => {
-      const temp = {...groupChat};
+    socket.on("message_received", (data: IMessage) => {
+      const temp = { ...groupChat };
       temp.messages.push(data);
       setGroupChat(temp);
     })
@@ -38,19 +38,19 @@ export const ChatRoom = () => {
     
     socket.emit("send_message", {
       groupId: groupChat.id,
-      content: msg
+      content: msg,
     });
-  }
-    return (
-        <div className="chat-room">
-            <div className="chat-room-messages">
-              <Messages messageList = { groupChat.messages }/>
-              <MessageInput sendMessage = { sendMessage }/>
-            </div>
-            <div className="chat-room-users">
-              <RoomUsers usersInRoom = { usersInRoom }/>
-            </div>
-
-        </div>
-    )
-}
+  };
+  return (
+    <div className="chat-room">
+      <h1>{groupChat.name}</h1>
+      <div className="chat-room-messages">
+        <Messages messageList={groupChat.messages} />
+        <MessageInput sendMessage={sendMessage} />
+      </div>
+      <div className="chat-room-users">
+        <RoomUsers usersInRoom={usersInRoom} />
+      </div>
+    </div>
+  );
+};
