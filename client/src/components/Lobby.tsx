@@ -5,58 +5,58 @@ import { useNavigate } from "react-router-dom";
 import { IChatGroup } from "../models/IChatGroup";
 
 export const Lobby = () => {
-  const [newUser, setNewUser] = useState<IUser>(() => {
-    const savedUser = sessionStorage.getItem("newUser");
-    return savedUser ? JSON.parse(savedUser) : { id: "", username: "" };
-  });
+  // const [newUser, setNewUser] = useState<IUser>(() => {
+  //   const savedUser = sessionStorage.getItem("newUser");
+  //   return savedUser ? JSON.parse(savedUser) : { id: "", username: "" };
+  // });
+
+  // // const navigate = useNavigate();
+  // const [group, setGroup] = useState<IChatGroup>({
+  //   id: "",
+  //   name: "",
+  //   users: [],
+  //   messages: [],
+  // });
+
+  // const [groupChatName, setGroupChatName] = useState<string>("");
 
   // const navigate = useNavigate();
-  const [group, setGroup] = useState<IChatGroup>({
-    id: "",
-    name: "",
-    users: [],
-    messages: [],
-  });
 
-  const [groupChatName, setGroupChatName] = useState<string>("");
+  // useEffect(() => {
+  //   socket.on("joined", (user: IUser) => {
+  //     console.log(user);
+  //     setNewUser(user);
+  //     sessionStorage.setItem("newUser", JSON.stringify(user));
+  //   });
+  // }, []);
 
-  const navigate = useNavigate();
+  // // // const showUsersInLobbyList = usersInLobby.map((user: IUser) => {
+  // // //   return (
+  // // //     <RoomUsers key={user.id} lobbyUserList={user}></RoomUsers>
+  // // //   );
+  // // // });
+  // useEffect(() => {
+  //   socket.on("users_in_group_updated", (group: IChatGroup) => {
+  //     console.log(group);
+  //     setGroup(group);
+  //     sessionStorage.setItem("lobbyList", JSON.stringify(group));
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    socket.on("joined", (user: IUser) => {
-      console.log(user);
-      setNewUser(user);
-      sessionStorage.setItem("newUser", JSON.stringify(user));
-    });
-  }, []);
+  // useEffect(() => {
+  //   socket.on("chat_groups_updated", (chatGroups: IChatGroup[]) => {
+  //     console.log(chatGroups);
+  //   });
+  // }, []);
 
-  // // const showUsersInLobbyList = usersInLobby.map((user: IUser) => {
-  // //   return (
-  // //     <RoomUsers key={user.id} lobbyUserList={user}></RoomUsers>
-  // //   );
-  // // });
-  useEffect(() => {
-    socket.on("users_in_group_updated", (group: IChatGroup) => {
-      console.log(group);
-      setGroup(group);
-      sessionStorage.setItem("lobbyList", JSON.stringify(group));
-    });
-  }, []);
-
-  useEffect(() => {
-    socket.on("chat_groups_updated", (chatGroups: IChatGroup[]) => {
-      console.log(chatGroups);
-    });
-  }, []);
-
-  // const handleCreateGroupChatInput = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setGroupChatName(e.target.value);
-  // };
-  const showUsersInLobbyList = group.users.map((user: IUser) => {
-    return (
+  // // const handleCreateGroupChatInput = (e: ChangeEvent<HTMLInputElement>) => {
+  // //   setGroupChatName(e.target.value);
+  // // };
+  // const showUsersInLobbyList = group.users.map((user: IUser) => {
+    // return (
       // <UsersInLobbyList key={user.id} lobbyUserList={user}></UsersInLobbyList>
-    );
-  });
+    // )
+  // });
 
   // const handleCreateGroupChatButton = () => {
   //   if (groupChatName !== "") {
