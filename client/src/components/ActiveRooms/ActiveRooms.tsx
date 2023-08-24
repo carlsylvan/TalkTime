@@ -9,8 +9,8 @@ interface IActiveRoomsProps {
     chatGroups: IChatGroup []
 }
 export const ActiveRooms = (props:IActiveRoomsProps) => {
-//   const context = useContext<IContext>(ChatGroupContext);
   const handleClick = (group: string) => {
+
     console.log("Joined: ", group);
   };
   return (

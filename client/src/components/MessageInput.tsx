@@ -1,12 +1,18 @@
 import { FormEvent, useContext, useState } from "react"
+import { IChatGroup, IMessage } from "../models/IChatGroup";
+import socket from "../socket/socket";
 interface IMessageInput {
-    sendMessage(msg:string) : void
+    // sendMessage(msg:string) : void
+    groupChat: IChatGroup,
 }
 export const MessageInput = (props:IMessageInput) => {
     const [ msg, setMsg ] = useState<string>("");
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        props.sendMessage(msg);
+        socket.emit("send_message", {
+          groupId: props.groupChat.id,
+          content: msg,
+        });
         setMsg("");
     }
     return (

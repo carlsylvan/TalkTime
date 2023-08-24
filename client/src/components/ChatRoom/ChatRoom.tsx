@@ -8,53 +8,38 @@ import { useParams } from "react-router-dom";
 import { RoomUsers } from "../RoomUsers";
 import "./ChatRoom.scss";
 
-interface IChatRoomProps {
-  chatGroups: IChatGroup []
-}
-export const ChatRoom = (props:IChatRoomProps) => {
+export const ChatRoom = () => {
 
-  const { id, room } = useParams();
-  const chatGroup = props.chatGroups.find((group) => group.id === id);
-  
-  const [usersInRoom, setUsersInRoom] = useState<IUser[]>([]);
-
-  const [groupChat, setGroupChat] = useState<IChatGroup>(chatGroup || {
-    id: "lobby-id",
-    name: "Lobby",
-    users: usersInRoom,
+  const [groupChat, setGroupChat] = useState<IChatGroup>({
+    id: "",
+    name: "",
+    users: [],
     messages: [],
   });
-  console.log(id);
+  // const { id, room } = useParams();
   
   useEffect(() => {
-    socket.on("chat_groups_updated", (chatGroups: IChatGroup[]) => {
-      const chatGroup = chatGroups.find((group) => group.id === id);
-      if (chatGroup) {
-        setUsersInRoom(chatGroup.users);
-      }
-    });
-    socket.on("message_received", (data: IMessage) => {
-      const temp = { ...groupChat };
-      temp.messages.push(data);
-      setGroupChat(temp);
+    socket.on("joined_lobby", (chatGroup)=>{
+      setGroupChat(chatGroup);
+    })
+    socket.on("new_group_created", (chatGroup)=>{
+      setGroupChat(chatGroup);
+    })
+    socket.on("chat_group_updated", (chatGroup)=>{
+      setGroupChat(chatGroup);
     })
   }, []);
 
-  const sendMessage = (msg:string) => {
-    socket.emit("send_message", {
-      groupId: groupChat.id,
-      content: msg,
-    });
-  };
+  
   return (
     <div className="chat-room">
       <h1>{groupChat.name}</h1>
       <div className="chat-room-messages">
-        <Messages messageList={groupChat.messages} />
-        <MessageInput sendMessage={sendMessage} />
+        <Messages groupChat = { groupChat }  />
+        <MessageInput groupChat = { groupChat }  />
       </div>
       <div className="chat-room-users">
-        <RoomUsers usersInRoom={usersInRoom} />
+        <RoomUsers usersInRoom={groupChat.users} />
       </div>
     </div>
   );

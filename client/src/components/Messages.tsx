@@ -1,20 +1,19 @@
 import { useContext } from "react";
 import { UserContext } from "../contexts/userContext"
-import { IMessage } from "../models/IChatGroup"
+import { IChatGroup } from "../models/IChatGroup"
 import { IUser } from "../models/IUser";
 
+
 interface IMessagesProps {
-    messageList: IMessage []
+    groupChat: IChatGroup,
 }
 
 export const Messages = (props: IMessagesProps) => {
     const user = useContext<IUser>(UserContext);
-    console.log(user);
-    
     return (
         <div>
             <ul>
-                {props.messageList.map((e, i) => 
+                {props.groupChat.messages.map((e, i) => 
                 <li key={i} className = { user.id ===e.user.id ? "myMessages" : ""}>
                     <div>
                         <span>

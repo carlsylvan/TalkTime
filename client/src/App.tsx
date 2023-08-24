@@ -10,7 +10,6 @@ function App() {
   const [user, setUser] = useState<IUser>({ id: "", username: "" });
   useEffect(() => {
     socket.on("new_user_in_lobby", (user: IUser) => {
-      console.log(user);
     });
     socket.on("joined", (user) => {
       setUser(user);
