@@ -7,8 +7,12 @@ import { Messages } from "../Messages";
 import { useParams } from "react-router-dom";
 import { RoomUsers } from "../RoomUsers";
 import "./ChatRoom.scss";
+import { ActiveRooms } from "../ActiveRooms/ActiveRooms";
 
-export const ChatRoom = () => {
+interface IChatRoomProps {
+  chatGroups: IChatGroup []
+}
+export const ChatRoom = (props: IChatRoomProps) => {
 
   const [groupChat, setGroupChat] = useState<IChatGroup>({
     id: "",
@@ -19,12 +23,21 @@ export const ChatRoom = () => {
   // const { id, room } = useParams();
   
   useEffect(() => {
-    socket.on("joined_lobby", (chatGroup)=>{
-      setGroupChat(chatGroup);
+      socket.on("joined", (data)=>{
+        setGroupChat(data.lobby);
+      })
+      socket.on("joined_group", (group:IChatGroup) => {
+      setGroupChat(group);
+      socket.on("new_group_created", (group)=>{
+        setGroupChat(group);
+      })
     })
-    socket.on("new_group_created", (chatGroup)=>{
-      setGroupChat(chatGroup);
-    })
+    // socket.on("joined_lobby", (chatGroup)=>{
+    //   setGroupChat(chatGroup);
+    // })
+    // socket.on("new_group_created", (chatGroup)=>{
+    //   setGroupChat(chatGroup);
+    // })
     socket.on("chat_group_updated", (chatGroup)=>{
       setGroupChat(chatGroup);
     })
@@ -34,13 +47,9 @@ export const ChatRoom = () => {
   return (
     <div className="chat-room">
       <h1>{groupChat.name}</h1>
-      <div className="chat-room-messages">
-        <Messages groupChat = { groupChat }  />
-        <MessageInput groupChat = { groupChat }  />
-      </div>
-      <div className="chat-room-users">
-        <RoomUsers usersInRoom={groupChat.users} />
-      </div>
+      <ActiveRooms chatGroups={ props.chatGroups } groupId = { groupChat.id }/>
+      <Messages messageList = { groupChat.messages } groupId = { groupChat.id }/>
+      <RoomUsers  usersInRoom={ groupChat.users }/>
     </div>
   );
 };

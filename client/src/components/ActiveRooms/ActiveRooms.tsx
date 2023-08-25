@@ -7,10 +7,12 @@ import { IChatGroup } from "../../models/IChatGroup";
 import socket from "../../socket/socket";
 
 interface IActiveRoomsProps {
-    chatGroups: IChatGroup []
+    chatGroups: IChatGroup [],
+    groupId: string
 }
 export const ActiveRooms = (props:IActiveRoomsProps) => {
   const handleClick = (groupId: string) => {
+    if(groupId === props.groupId) return;
     socket.emit("join_group", groupId);
   };
   return (

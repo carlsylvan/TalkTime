@@ -24,15 +24,16 @@ export const activateTalkTimeSocket = (io: Server) => {
       const user: IUser = { id: socket.id, username };
       users.push(user);
 
-      const group = chatGroups.find((g) => g.id === LOBBY_ID);
-      if (!group) return;
-      group.users.push(user);
-      socket.emit("joined", user);
-
-      io.emit("new_user_in_lobby", user);
-      io.emit("joined_lobby", group);
-      io.emit("users_in_group_updated", group);
-      io.emit("users_list_udpated", users);
+      const lobby = chatGroups.find((g) => g.id === LOBBY_ID);
+      if (!lobby) return;
+      lobby.users.push(user);
+      socket.join(lobby.id);
+      socket.emit("joined", {user, lobby});
+      io.emit("get_all_groups", chatGroups);
+      // io.emit("new_user_in_lobby", user);
+      // io.emit("joined_lobby", group);
+      // io.emit("users_in_group_updated", group);
+      // io.emit("users_list_udpated", users);
     });
 
     socket.on("join_group", (groupId: string) => {
@@ -40,21 +41,34 @@ export const activateTalkTimeSocket = (io: Server) => {
       if (!user) return;
       // const userGroup = getUserGroup(socket);
       // console.log(userGroup);
+      const leavingRoom = getUserGroup(socket);
+      if(!leavingRoom) return;
+      const userInLeavingGroupIndex = leavingRoom.users.findIndex((u) => u.id === socket.id);
+      if(userInLeavingGroupIndex !== -1) {
+        leavingRoom.users.splice(userInLeavingGroupIndex, 1);
+        socket.leave(leavingRoom.id);
+      }
+    
+      const joinRoom = chatGroups.find((g) => g.id === groupId);
+      if(!joinRoom) return;
+      joinRoom.users.push(user);
+      socket.join(groupId);
+
       
-      const group = chatGroups.find((g) => g.id === groupId);
+      // const group = chatGroups.find((g) => g.id === groupId);
       // console.log(group);
       
-      if (!group) return;
+      // if (!group) return;
 
-      const userInGroupIndex = group.users.findIndex((u) => u.id === user.id);
-      if (userInGroupIndex !== -1) {
-        group.users.splice(userInGroupIndex, 1);
-      }
+      // const userInGroupIndex = group.users.findIndex((u) => u.id === user.id);
+      // if (userInGroupIndex !== -1) {
+      //   group.users.splice(userInGroupIndex, 1);
+      // }
 
-      group.users.push(user);
-      socket.join(groupId);
+      // group.users.push(user);
+      // socket.join(groupId);
       io.emit("chat_groups_updated", chatGroups);
-      io.emit("joined_group", group);
+      io.emit("joined_group", joinRoom);
       
       
     });
@@ -93,7 +107,6 @@ export const activateTalkTimeSocket = (io: Server) => {
       const user = users.find((u) => u.id === socket.id);
       if (!user) return;
       const userGroup = getUserGroup(socket);
-      console.log(userGroup);
       const chatGroup = chatGroups.find((g) => g.id === userGroup?.id);
 
       if (!chatGroup) return;
@@ -116,52 +129,52 @@ export const activateTalkTimeSocket = (io: Server) => {
 
       socket.join(id);
 
-      socket.emit("group_created", group);
+      // socket.emit("group_created", group);
       
       socket.emit("joined_group", group);
       io.emit("new_group_created", group);
-      io.emit("users_in_lobby_updated", usersInLobby);
+      // io.emit("users_in_lobby_updated", usersInLobby);
       io.emit("chat_groups_updated", chatGroups);
-      io.emit("users_in_group_updated", chatGroup);
+      // io.emit("users_in_group_updated", chatGroup);
     });
 
-    socket.on("leave_group", (groupId: string) => {
-      const user = users.find((u) => u.id === socket.id);
-      if (!user) return;
+    // socket.on("leave_group", (groupId: string) => {
+    //   const user = users.find((u) => u.id === socket.id);
+    //   if (!user) return;
 
-      const group = chatGroups.find((g) => g.id === groupId);
-      if (!group) return;
+    //   const group = chatGroups.find((g) => g.id === groupId);
+    //   if (!group) return;
 
-      const userInGroupIndex = group.users.findIndex((u) => u.id === socket.id);
-      if (userInGroupIndex !== -1) {
-        group.users.splice(userInGroupIndex, 1);
-      }
+    //   const userInGroupIndex = group.users.findIndex((u) => u.id === socket.id);
+    //   if (userInGroupIndex !== -1) {
+    //     group.users.splice(userInGroupIndex, 1);
+    //   }
 
-      if (group.users.length === 0 && groupId !== LOBBY_ID) {
-        const groupIndex = chatGroups.findIndex((g) => g.id === groupId);
-        if (groupIndex !== -1) {
-          chatGroups.splice(groupIndex, 1);
-        }
-      }
+    //   if (group.users.length === 0 && groupId !== LOBBY_ID) {
+    //     const groupIndex = chatGroups.findIndex((g) => g.id === groupId);
+    //     if (groupIndex !== -1) {
+    //       chatGroups.splice(groupIndex, 1);
+    //     }
+    //   }
 
-      console.log("Joining lobby:", LOBBY_ID);
-      socket.join(LOBBY_ID);
-      console.log("User added to lobby:", user);
-      usersInLobby.push(user);
+    //   console.log("Joining lobby:", LOBBY_ID);
+    //   // socket.join(LOBBY_ID);
+    //   console.log("User added to lobby:", user);
+    //   usersInLobby.push(user);
 
-      socket.leave(groupId);
+    //   socket.leave(groupId);
 
-      const lobbyGroup = chatGroups.find((g) => g.id === LOBBY_ID);
-      if (lobbyGroup) {
-        lobbyGroup.users.push(user);
-      }
+    //   const lobbyGroup = chatGroups.find((g) => g.id === LOBBY_ID);
+    //   if (lobbyGroup) {
+    //     lobbyGroup.users.push(user);
+    //   }
 
-      socket.emit("left_group", groupId);
-      io.emit("users_in_lobby_updated", usersInLobby);
-      io.emit("chat_groups_updated", chatGroups);
-      io.emit("users_in_group_updated", group);
-      console.log(chatGroups);
-    });
+    //   socket.emit("left_group", groupId);
+    //   io.emit("users_in_lobby_updated", usersInLobby);
+    //   io.emit("chat_groups_updated", chatGroups);
+    //   io.emit("users_in_group_updated", group);
+    //   console.log(chatGroups);
+    // });
 
     socket.on("disconnect", () => {
       const user = users.find((u) => u.id === socket.id);
