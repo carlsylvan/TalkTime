@@ -48,6 +48,13 @@ export const activateTalkTimeSocket = (io: Server) => {
         leavingRoom.users.splice(userInLeavingGroupIndex, 1);
         socket.leave(leavingRoom.id);
       }
+      if(leavingRoom.users.length === 0 && leavingRoom.id !== LOBBY_ID) {
+        const leavingRoomIndex = chatGroups.findIndex((g) => g.id === leavingRoom.id);
+        chatGroups.splice(leavingRoomIndex,1);
+      }
+      if(leavingRoom.users.length === 0 && leavingRoom.id === LOBBY_ID) {
+        leavingRoom.messages = [];
+      }
     
       const joinRoom = chatGroups.find((g) => g.id === groupId);
       if(!joinRoom) return;
@@ -84,11 +91,11 @@ export const activateTalkTimeSocket = (io: Server) => {
         messages: [],
       };
 
-      if (data.groupId === LOBBY_ID) {
-        group = chatGroups[0];
-      } else {
+      // if (data.groupId === LOBBY_ID) {
+      //   group = chatGroups[0];
+      // } else {
         group = chatGroups.find((g) => g.id === data.groupId);
-      }
+      // }
       
       if (!group) return;
       
@@ -192,7 +199,7 @@ export const activateTalkTimeSocket = (io: Server) => {
         (u) => u.id === user.id,
       );
       if (userInGroupIndex !== -1) {
-        usersInLobby.splice(userInGroupIndex, 1);
+        chatGroup.users.splice(userInGroupIndex, 1);
       }
 
       if (chatGroup.users.length === 0 && chatGroup.id !== LOBBY_ID) {
@@ -201,7 +208,6 @@ export const activateTalkTimeSocket = (io: Server) => {
           chatGroups.splice(groupIndex, 1);
         }
       }
-
       io.emit("users_in_group_updated", chatGroup);
       io.emit("users_list_udpated", users);
       io.emit("chat_groups_updated", chatGroups);
