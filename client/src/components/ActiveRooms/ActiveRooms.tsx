@@ -1,6 +1,3 @@
-// import { useContext } from "react";
-// import { ChatGroupContext, IContext } from "../../contexts/chatGroupContext";
-// import { IChatGroup } from "../../models/IChatGroup";
 import { CreateRoom } from "../CreateRoom";
 import "./ActiveRooms.scss";
 import { IChatGroup } from "../../models/IChatGroup";

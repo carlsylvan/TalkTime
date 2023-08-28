@@ -3,26 +3,34 @@ import { ChatRoom } from "../ChatRoom/ChatRoom";
 import { IChatGroup } from "../../models/IChatGroup";
 import socket from "../../socket/socket";
 import "./MainPage.scss";
+import { ActiveRooms } from "../ActiveRooms/ActiveRooms";
 export const MainPage = () => {
   const [chatGroups, setChatGroups] = useState<IChatGroup[]>([]);
-
+  const [groupChat, setGroupChat] = useState<IChatGroup>({
+    id: "",
+    name: "",
+    users: [],
+    messages: [],
+  });
   useEffect(() => {
-
-    socket.on("get_all_groups", (groups:IChatGroup[]) => {
-      setChatGroups(groups);
-    })
-    socket.on("chat_groups_updated", (chatGroups: IChatGroup[]) => {
+    socket.on("joined_lobby", (group)=> {
+      setGroupChat(group);
+    });
+    socket.on("chat_groups_update", (chatGroups) => {
       setChatGroups(chatGroups);
     });
-
-    // socket.on("joined_group", (group:IChatGroup) => {
-    //   setChatGroups([...chatGroups,group]);
-    // })
+    socket.on("user_disconnected", (data) => {
+      setChatGroups(data.chatGroups);
+      setGroupChat(data.chatGroup);
+    });
   }, []);
+  console.log(chatGroups);
+  console.log(groupChat);
   
   return (
     <div className="main-container">
-        <ChatRoom chatGroups = { chatGroups } />
+        <ActiveRooms chatGroups = { chatGroups } groupId = { groupChat.id } />
+        <ChatRoom groupChat = { groupChat } />
     </div>
   );
 };
