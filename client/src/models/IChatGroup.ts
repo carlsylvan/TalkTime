@@ -4,6 +4,7 @@ export interface IMessage {
   user: IUser;
   content: string;
   timestamp: string;
+  isGif?: boolean;
 }
 
 export interface IChatGroup {

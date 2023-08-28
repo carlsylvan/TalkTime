@@ -40,10 +40,10 @@ export const activateTalkTimeSocket = (io: Server) => {
       if (!user) return;
       // const userGroup = getUserGroup(socket);
       // console.log(userGroup);
-      
+
       const group = chatGroups.find((g) => g.id === groupId);
       // console.log(group);
-      
+
       if (!group) return;
 
       const userInGroupIndex = group.users.findIndex((u) => u.id === user.id);
@@ -55,39 +55,42 @@ export const activateTalkTimeSocket = (io: Server) => {
       socket.join(groupId);
       io.emit("chat_groups_updated", chatGroups);
       io.emit("joined_group", group);
-      
-      
     });
 
-    socket.on("send_message", (data: { groupId: string; content: string }) => {
-      const user = users.find((u) => u.id === socket.id);
-      if (!user) return;
-      
-      let group: IChatGroup | undefined = {
-        id: "",
-        name: "",
-        users: [],
-        messages: [],
-      };
+    socket.on(
+      "send_message",
+      (data: { groupId: string; content: string; isGif?: boolean }) => {
+        const user = users.find((u) => u.id === socket.id);
+        if (!user) return;
 
-      if (data.groupId === LOBBY_ID) {
-        group = chatGroups[0];
-      } else {
-        group = chatGroups.find((g) => g.id === data.groupId);
-      }
-      
-      if (!group) return;
-      
-      const message: IMessage = {
-        user,
-        content: data.content,
-        timestamp: new Date().getHours() +":"+ new Date().getMinutes(),
-      };
-      group.messages.push(message);
-      
-      io.emit("chat_group_updated", group);
-      io.to(data.groupId).emit("message_received", message);
-    });
+        let group: IChatGroup | undefined = {
+          id: "",
+          name: "",
+          users: [],
+          messages: [],
+        };
+
+        if (data.groupId === LOBBY_ID) {
+          group = chatGroups[0];
+        } else {
+          group = chatGroups.find((g) => g.id === data.groupId);
+        }
+
+        if (!group) return;
+
+        const message: IMessage = {
+          user,
+          content: data.content,
+          timestamp: new Date().getHours() + ":" + new Date().getMinutes(),
+          isGif: data.isGif || false,
+        };
+
+        group.messages.push(message);
+
+        io.emit("chat_group_updated", group);
+        io.to(data.groupId).emit("message_received", message);
+      },
+    );
 
     socket.on("create_group", (groupName: string) => {
       const user = users.find((u) => u.id === socket.id);
@@ -117,7 +120,7 @@ export const activateTalkTimeSocket = (io: Server) => {
       socket.join(id);
 
       socket.emit("group_created", group);
-      
+
       socket.emit("joined_group", group);
       io.emit("new_group_created", group);
       io.emit("users_in_lobby_updated", usersInLobby);
@@ -205,5 +208,5 @@ export const activateTalkTimeSocket = (io: Server) => {
       if (user) return group.id;
     });
     return chatGroup;
-  }
+  };
 };
