@@ -4,7 +4,7 @@ import { IChatGroup } from "../../models/IChatGroup";
 import socket from "../../socket/socket";
 
 interface IActiveRoomsProps {
-    chatGroups: IChatGroup [],
+    rooms: IChatGroup [],
     groupId: string
 }
 export const ActiveRooms = (props:IActiveRoomsProps) => {
@@ -12,13 +12,15 @@ export const ActiveRooms = (props:IActiveRoomsProps) => {
     if(groupId === props.groupId) return;
     socket.emit("join_group", groupId);
   };
+  console.log(props.rooms);
+  
   return (
     <div className="rooms">
       <CreateRoom></CreateRoom>
       <div className="active-rooms">
         <p>Aktiva Rum</p>
         <ul>
-          {props.chatGroups.map((e, i) => (
+          {props.rooms.map((e, i) => (
             <li
               key={i}
               onClick={() => {
