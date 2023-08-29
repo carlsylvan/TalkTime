@@ -6,7 +6,7 @@
     height: 100%;
     position: relative;
     padding: 5px; 
-    gap: 5px;
+    gap: 10px;
     &_messages, &_users {
         display: flex;
     }
@@ -21,7 +21,14 @@
             width: 100%;
             height: 90%;
             display: flex;
+            flex-direction: column;
             padding: 2rem;
+
+            .typing_indicator {
+                display: flex;
+                width: 100%;
+                justify-content: center;
+            }
             ul {
                 width: 100%;
                 display: flex;
@@ -33,7 +40,7 @@
                     justify-content: start;
                     >div {
                         display: flex;
-                        width: 50%;
+                        width: 40%;
                         gap: 1rem;
                         position: relative;
                         justify-content: center;
@@ -50,6 +57,7 @@
                             background-color: none;
                             width: 100%;
                             >img {
+                                border-radius: 0px 10px 10px 10px;
                                 box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
                                 width: 100%;
                             }
@@ -75,6 +83,12 @@
                         .chat_room_messages_text {
                             border-radius: 10px 10px 0px 10px;
                             background-color: lightgreen;
+                        }
+                        .chat_room_messages_gif {
+                            >img {
+                                border-radius: 10px 10px 0px 10px;
+                            }
+                            
                         }
                     }
                 }
@@ -108,7 +122,7 @@
     &_users {
         flex: 1;
         flex-direction: column;
-        gap: 5px;
+        gap: 10px;
         p {
             padding: 1rem 5px;
             padding: 1rem 0;
@@ -121,8 +135,10 @@
             gap: 5px;
             box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
             border-radius: 10px;
-            padding: 10px;
-            font-size: 12px;
+            padding: 1rem;
+            font-size: 1rem;
+            height: 25%;
+            justify-content: space-around;
         } 
         .room_users {
             box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
@@ -136,7 +152,7 @@
                 align-items: start;
                 li {
                     font-style: italic;
-                    font-size: 12px;
+                    font-size: 1rem;
                 }
             }
         }

@@ -17,7 +17,7 @@ export const RoomUsers = (props: IUsersInRoomProps) => {
   return (
     <div className="chat_room_users">
       <div className="user_info">
-        <h4>Userinfo</h4>
+        <p>Userinfo</p>
         <span>Username:{user.username}</span>
         <span>Rum: {props.currentRoom.name}</span>
         

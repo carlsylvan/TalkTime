@@ -5,6 +5,7 @@ import socket from "../../socket/socket";
 import { useEffect, useState } from "react";
 import { IUser } from "../../models/IUser";
 
+
 interface IActiveRoomsProps {
     rooms: IChatGroup [],
     groupId: string
@@ -34,26 +35,29 @@ export const ActiveRooms = (props:IActiveRoomsProps) => {
 
   return (
     <div className="active_rooms">
-      <div className="active_rooms_users">
-        <p>Users</p>
-        <ul>
-          {allUsers.map((u)=> <li key={u.user.id}>{u.user.username} ({u.room})</li>)}
-        </ul>
-      </div>
       <div className="active_rooms_list">
         <p>Aktiva Rum</p>
         <CreateRoom></CreateRoom>
         <ul>
           {props.rooms.map((e, i) => (
-            <li
-              key={i}
-              onClick={() => {
+            <li key={i}>
+              {e.id === props.groupId ? <div className="empty_div"></div> :
+                <button className="join_button" onClick={() => {
+                  handleClick(e.id);
+                }}>gå in</button>
+              }
+              {/* <button className="join_button" onClick={() => {
                 handleClick(e.id);
-              }}
-            >
-              {e.name}<span> ({e.users.length})</span>
+              }}>gå in</button> */}
+              <span>{e.name} ({e.users.length})</span>
             </li>
           ))}
+        </ul>
+      </div>
+      <div className="active_rooms_users">
+        <p>Users</p>
+        <ul>
+          {allUsers.map((u)=> <li key={u.user.id}>{u.user.username} ({u.room})</li>)}
         </ul>
       </div>
     </div>

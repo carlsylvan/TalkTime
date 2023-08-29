@@ -4,7 +4,6 @@ import socket from "../socket/socket";
 import { getRandomGif } from "../services/gifService";
 interface IMessageInput {
   groupId: string;
-  // sendMessage(msg:string) : void
   messageList: IMessage[];
 }
 export const MessageInput = (props: IMessageInput) => {
@@ -48,7 +47,7 @@ export const MessageInput = (props: IMessageInput) => {
           onKeyDown={handleTyping}
         />
         <button type="submit">Skicka</button>
-        <button onClick={handleRandomGifButton} type="submit" className="gif_button">
+        <button onClick={handleRandomGifButton} type="button" className="gif_button">
             GIF
         </button>
       </form>
