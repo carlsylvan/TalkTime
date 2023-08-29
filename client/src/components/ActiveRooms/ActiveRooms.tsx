@@ -55,7 +55,7 @@ export const ActiveRooms = (props:IActiveRoomsProps) => {
         </ul>
       </div>
       <div className="active_rooms_users">
-        <p>Users</p>
+        <p>Användare</p>
         <ul>
           {allUsers.map((u)=> <li key={u.user.id}>{u.user.username} ({u.room})</li>)}
         </ul>

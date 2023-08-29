@@ -17,8 +17,8 @@ export const RoomUsers = (props: IUsersInRoomProps) => {
   return (
     <div className="chat_room_users">
       <div className="user_info">
-        <p>Userinfo</p>
-        <span>Username:{user.username}</span>
+        <p>Användare</p>
+        <span>Namn:{user.username}</span>
         <span>Rum: {props.currentRoom.name}</span>
         
         {props.currentRoom.id !=="lobby-id" ?
