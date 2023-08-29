@@ -27,8 +27,7 @@ export const Messages = (props: IMessagesProps) => {
                 </span>
                 {e.isGif ? (
                   <div className="chat_room_messages_gif">
-                    (
-                    <img src={e.content} alt="Random GIF" />)
+                    <img src={e.content} alt="Random GIF" />
                   </div>
                 ) : (
                   <div className="chat_room_messages_text">{e.content}</div>
