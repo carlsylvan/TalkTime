@@ -3,9 +3,9 @@ import { IChatGroup, IMessage } from "../models/IChatGroup";
 import socket from "../socket/socket";
 import { getRandomGif } from "../services/gifService";
 interface IMessageInput {
-    groupId: string
+  groupId: string;
   // sendMessage(msg:string) : void
-    messageList: IMessage [];
+  messageList: IMessage[];
 }
 export const MessageInput = (props: IMessageInput) => {
   const [msg, setMsg] = useState<string>("");
@@ -16,6 +16,10 @@ export const MessageInput = (props: IMessageInput) => {
       content: msg,
     });
     setMsg("");
+  };
+
+  const handleTyping = () => {
+    socket.emit("typing", props.groupId);
   };
 
   const handleRandomGifButton = async () => {
@@ -41,6 +45,7 @@ export const MessageInput = (props: IMessageInput) => {
           placeholder="Skriv här..."
           value={msg}
           onChange={(e) => setMsg(e.target.value)}
+          onKeyDown={handleTyping}
         />
         <button type="submit">Skicka</button>
       </form>
