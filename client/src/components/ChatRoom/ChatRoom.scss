@@ -17,30 +17,31 @@
         box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
         border-radius: 10px;
         &_list {
-            overflow-y: auto;
+            // overflow-y: auto;
             width: 100%;
             height: 90%;
             display: flex;
             flex-direction: column;
             padding: 2rem;
 
-            .typing_indicator {
-                display: flex;
-                width: 100%;
-                justify-content: center;
-                padding: 1rem 0;
-                span {
-                    font-style: italic;
-                    color: gray;
-                    font-size: 12px;
-
-                }
-            }
             ul {
                 width: 100%;
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
+                overflow-y: auto;
+                .typing_indicator {
+                    display: flex;
+                    width: 100%;
+                    justify-content: center;
+                    margin-top: 1rem;
+                    span {
+                        font-style: italic;
+                        color: gray;
+                        font-size: 12px;
+    
+                    }
+                }
                 li {
                     padding: 1rem;
                     display: flex;
