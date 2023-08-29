@@ -20,8 +20,8 @@ const usersInLobby: IUser[] = [];
 
 export const activateTalkTimeSocket = (io: Server) => {
   io.on("connection", (socket: Socket) => {
-    socket.on("typing", () => {
-      socket.broadcast.emit("typing");
+    socket.on("typing", (roomId: string) => {
+      socket.to(roomId).emit("typing");
     });
 
     socket.on("join", (username: string) => {

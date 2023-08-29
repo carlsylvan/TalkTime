@@ -19,7 +19,7 @@ export const MessageInput = (props: IMessageInput) => {
   };
 
   const handleTyping = () => {
-    socket.emit("typing");
+    socket.emit("typing", props.groupId);
   };
 
   const handleRandomGifButton = async () => {
