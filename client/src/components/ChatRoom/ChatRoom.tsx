@@ -23,7 +23,6 @@ export const ChatRoom = (props: IChatRoomProps) => {
         roomName={props.currentRoom.name}
       />
       <RoomUsers usersInRoom={props.currentRoom.users} />
-      <TypingIndicator />
     </div>
   );
 };
