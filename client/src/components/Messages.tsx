@@ -1,10 +1,9 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { UserContext } from "../contexts/userContext";
-import { IChatGroup, IMessage } from "../models/IChatGroup";
+import { IMessage } from "../models/IChatGroup";
 import { IUser } from "../models/IUser";
 import { MessageInput } from "./MessageInput";
 import { TypingIndicator } from "./TypingIndicator";
-import socket from "../socket/socket";
 
 interface IMessagesProps {
   messageList: IMessage[];
@@ -14,6 +13,18 @@ interface IMessagesProps {
 
 export const Messages = (props: IMessagesProps) => {
   const user = useContext<IUser>(UserContext);
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(scrollToBottom, 100);
+  }, [props.messageList]);
 
   return (
     <div className="chat_room_messages">
@@ -27,7 +38,11 @@ export const Messages = (props: IMessagesProps) => {
                 </span>
                 {e.isGif ? (
                   <div className="chat_room_messages_gif">
-                    <img src={e.content} alt="Random GIF" />
+                    <img
+                      src={e.content}
+                      alt="Random GIF"
+                      onLoad={scrollToBottom}
+                    />
                   </div>
                 ) : (
                   <div className="chat_room_messages_text">{e.content}</div>
@@ -35,6 +50,7 @@ export const Messages = (props: IMessagesProps) => {
               </div>
             </li>
           ))}
+          <div ref={messagesEndRef} />
           <TypingIndicator />
         </ul>
       </div>
