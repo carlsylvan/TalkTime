@@ -26,7 +26,7 @@ export const RoomUsers = (props: IUsersInRoomProps) => {
         <></>}
 
       </div>
-      <div>
+      <div className="room_users">
         <p>I rummet</p>
         <ul>
           {props.currentRoom.users.map((e, i) => <li key={i}>{e.username}</li>)}

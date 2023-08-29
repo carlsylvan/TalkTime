@@ -1,56 +1,86 @@
 .active_rooms {
-    // background-color: aqua;
-    width: 20%;
+    width:25%;
     display: flex;
-    flex-direction: column;
-    // border: 1px solid black;
-    >button {
-        border: none;
-        border-radius: 5px;
-        padding: 5px;
+    flex-wrap: wrap;  
+    padding: 5px; 
+    gap: 5px;
+    p {
+        text-align: center;
+        padding: 1rem 0;
+        margin: 0;
     }
-    .create_room_form {
-        position: relative;
-        padding: 2rem 5px;
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
-        >button {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            font-size: 12px;
-            padding: 3px;
-            border-radius: 2px;
-            border: none;
+    ul {
+        li {
+            font-size: 0.7rem;
         }
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            p {
-                text-align: center;
-                font-size: 14px;
-            }
-            button, input {
-                border: none;
-                box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
-                padding: 5px;
-            }
+    }
+    &_users, &_list {
+        border-radius: 10px;
+        align-items: start;
+        flex-direction: column;
+        display: flex;
+        box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
+        padding: 1rem 10px;
+        overflow: hidden;
+
+    }
+    &_users {
+        width: 50%;
+        li {
+            font-style: italic;
         }
     }
     &_list {
         flex: 1;
-        // box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
-        overflow: hidden;
-        p {
-            text-align: center;
-            padding: 1rem 5px;
-        }
-        ul {
+        .create_room_form {
+            position: relative;
+            width: 100%;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
+            padding: 10px 5px;
+            border-radius: 10px;
+            >button {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 12px;
+                padding: 3px;
+                border-radius: 2px;
+                border: none;
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+                padding: 1rem 5px;
+                p {
+                    text-align: center;
+                    font-size: 14px;
+                }
+                button, input {
+                    width: 100%;
+                    border: none;
+                    box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
+                    padding: 5px;
+                    border-radius: 8px;
+                    // padding: 0 10px;
+                }
+            }
+        }
+        >button {
+            border: none;
+            width: 100%;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        
+        ul {
+            padding: 1rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
             gap: 5px;
             li {
                 span {

@@ -34,13 +34,15 @@ export const ActiveRooms = (props:IActiveRoomsProps) => {
 
   return (
     <div className="active_rooms">
-      <CreateRoom></CreateRoom>
       <div className="active_rooms_users">
         <p>Users</p>
-        {allUsers.map((u, id)=> <li key={u.user.id}>{u.user.username}({u.room})</li>)}
+        <ul>
+          {allUsers.map((u)=> <li key={u.user.id}>{u.user.username} ({u.room})</li>)}
+        </ul>
       </div>
       <div className="active_rooms_list">
         <p>Aktiva Rum</p>
+        <CreateRoom></CreateRoom>
         <ul>
           {props.rooms.map((e, i) => (
             <li
@@ -49,7 +51,7 @@ export const ActiveRooms = (props:IActiveRoomsProps) => {
                 handleClick(e.id);
               }}
             >
-              {e.name}<span> ({e.users.length} pers.)</span>
+              {e.name}<span> ({e.users.length})</span>
             </li>
           ))}
         </ul>

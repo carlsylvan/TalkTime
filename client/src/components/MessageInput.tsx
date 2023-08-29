@@ -48,10 +48,10 @@ export const MessageInput = (props: IMessageInput) => {
           onKeyDown={handleTyping}
         />
         <button type="submit">Skicka</button>
+        <button onClick={handleRandomGifButton} type="submit" className="gif_button">
+            GIF
+        </button>
       </form>
-      <button onClick={handleRandomGifButton} type="submit">
-        GIF
-      </button>
     </>
   );
 };
