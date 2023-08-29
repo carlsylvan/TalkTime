@@ -28,6 +28,13 @@
                 display: flex;
                 width: 100%;
                 justify-content: center;
+                padding: 1rem 0;
+                span {
+                    font-style: italic;
+                    color: gray;
+                    font-size: 12px;
+
+                }
             }
             ul {
                 width: 100%;
