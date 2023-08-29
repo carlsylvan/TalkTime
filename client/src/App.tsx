@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import "./App.scss";
 import { useEffect, useState } from "react";
 import socket from "./socket/socket";
@@ -7,13 +7,16 @@ import { UserContext } from "./contexts/userContext";
 
 
 function App() {
+  
   const [user, setUser] = useState<IUser>({ id: "", username: "" });
+  const navigate = useNavigate();
   useEffect(() => {
-    socket.on("new_user_in_lobby", (user: IUser) => {
-    });
     socket.on("joined", (user) => {
       setUser(user);
     })
+    if(!socket.connected) {
+      navigate("/")
+    }
   }, [socket]);
   return (
     <>

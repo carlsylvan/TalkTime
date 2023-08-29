@@ -3,15 +3,16 @@ import { IChatGroup, IMessage } from "../models/IChatGroup";
 import socket from "../socket/socket";
 import { getRandomGif } from "../services/gifService";
 interface IMessageInput {
+    groupId: string
   // sendMessage(msg:string) : void
-  groupChat: IChatGroup;
+    messageList: IMessage [];
 }
 export const MessageInput = (props: IMessageInput) => {
   const [msg, setMsg] = useState<string>("");
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     socket.emit("send_message", {
-      groupId: props.groupChat.id,
+      groupId: props.groupId,
       content: msg,
     });
     setMsg("");
@@ -23,7 +24,7 @@ export const MessageInput = (props: IMessageInput) => {
       const gifUrl = response.data.images.fixed_height.url;
 
       socket.emit("send_message", {
-        groupId: props.groupChat.id,
+        groupId: props.groupId,
         content: gifUrl,
         isGif: true,
       });
