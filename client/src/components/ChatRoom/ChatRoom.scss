@@ -1,22 +1,26 @@
+
 .chat_room {
     flex: 1;
     flex-wrap: wrap;
     display: flex;
-    gap: 20px;
-    padding: 0 10px;
+    height: 100%;
+    position: relative;
+    &_info {
+        width: 100%;
+    }
     &_messages {
+        border: 1px solid black;
         width: 75%;
         display: flex;
         flex-wrap: wrap;
+        height: 100%;
 
-        >div {
-            overflow: auto;
-            box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
+        &_list {
+            overflow-y: auto;
             width: 100%;
-            height: 85%;
+            height: 90%;
             display: flex;
             padding: 2rem;
-            border-radius: 10px;
             ul {
                 width: 100%;
                 display: flex;
@@ -24,48 +28,51 @@
                 li {
                     padding: 1rem;
                     display: flex;
-                    justify-content: end;
+                    justify-content: start;
                     >div {
                         display: flex;
                         width: 50%;
                         gap: 1rem;
+                        position: relative;
+                        justify-content: center;
+                        align-items: center;
                         >span {
-                            display: flex;
-                            justify-content: end;
-                            align-items: center;
+                            position: absolute;
+                            bottom: -20px;
+                            right: 30px;
+                            opacity: 0.6;
+                            font-style:italic;
+                            font-size: 12px;
                         }
-                        >div {
-                            border-radius: 10px;
+                        .chat_room_messages_gif {
+                            background-color: none;
+                            width: 80%;
+                            >img {
+                                box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
+                                width: 100%;
+                            }
+                            
+                        }
+                        .chat_room_messages_text {
+                            border-radius: 0px 10px 10px 10px;
                             width: 80%;
                             background-color: lightblue;
                             box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
                             position: relative;
                             padding: 1rem;
-                            // display: flex;
-                            // justify-content: flex-start;
-                            // align-items: center;
-                            >span {
-                                position: absolute;
-                                bottom: 10px;
-                                right: 10px;
-                                opacity: 0.6;
-                                font-style:italic;
-                                font-size: 12px;
-                            }
-                            >div {
-                                overflow-wrap: break-word;
-                                padding: 1rem;
-                            }
+                            overflow-wrap: break-word;
+                            padding: 1rem;
 
                         }
+                        
                     }
                 }
                 .my_messages {
-                    justify-content: start;
+                    justify-content: end;
                     >div {
-                        >div {
+                        .chat_room_messages_text {
+                            border-radius: 10px 10px 0px 10px;
                             background-color: lightgreen;
-
                         }
                     }
                 }
@@ -73,41 +80,38 @@
         }
         >form {
             width: 100%;
+            height: 10%;
             flex: 1;
             display: flex;
-            gap: 10px;
             input {
                 width: 80%;
-                padding: 1rem;
             }
             button {
                 width: 20%;
-            }
-            input, button {
-                border-radius: 5px;
-                border: none;
-                box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
-
             }
 
         }
     }
     &_users {
-        // background-color:coral;
         display: flex;
         flex: 1;
         flex-direction: column;
         align-items: center;
-        padding-bottom: 10px;
-        padding: 0 10px;
-        box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
         p {
             width: 100%;
-            padding: 1rem;
             display: flex;
             justify-content: center;
             align-items: center;
         }
+        .user_info {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            button {
+                width: 100%;
+            }
+        } 
         ul {
             display: flex;
             flex-direction: column;

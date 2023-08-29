@@ -3,9 +3,7 @@
     width: 20%;
     display: flex;
     flex-direction: column;
-    padding: 0 10px;
-    padding-bottom: 10px;
-    gap: 10px;
+    // border: 1px solid black;
     >button {
         border: none;
         border-radius: 5px;
@@ -43,7 +41,7 @@
     }
     &_list {
         flex: 1;
-        box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
+        // box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
         overflow: hidden;
         p {
             text-align: center;

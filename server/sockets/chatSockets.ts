@@ -85,7 +85,7 @@ export const activateTalkTimeSocket = (io: Server) => {
         const message: IMessage = {
           user,
           content: data.content,
-          timestamp: new Date().getHours() + ":" + new Date().getMinutes(),
+          timestamp: new Date().getMinutes() < 10 ? new Date().getHours() + ":0" + new Date().getMinutes() :new Date().getHours() + ":" + new Date().getMinutes(),
           isGif: data.isGif || false,
         };
 

@@ -3,6 +3,7 @@ import { UserContext } from "../contexts/userContext"
 import { IChatGroup, IMessage } from "../models/IChatGroup"
 import { IUser } from "../models/IUser";
 import { MessageInput } from "./MessageInput";
+import socket from "../socket/socket";
 
 
 interface IMessagesProps {
@@ -13,19 +14,26 @@ interface IMessagesProps {
 
 export const Messages = (props: IMessagesProps) => {
   const user = useContext<IUser>(UserContext);
+
   return (
-    <div>
-        <div>
+    <div className="chat_room_messages">
+
+        <div className="chat_room_messages_list">
             <ul>
                 {props.messageList.map((e, i) => (
-                <li key={i} className={user.id === e.user.id ? "myMessages" : ""}>
+                <li key={i} className={user.id === e.user.id ? "my_messages" : ""}>
                     <div>
-                    <span>{e.timestamp}</span>
-                    <div>
-                        <span>{e.user.username}</span>
-                        {e.isGif ? <img src={e.content} alt="Random GIF" /> : e.content}
+                        <span>{e.timestamp} {e.user.username}</span>
+                            {e.isGif ?
+                                <div className="chat_room_messages_gif">
+                                    <img src={e.content} alt="Random GIF" />
+                                </div> :
+                                <div className="chat_room_messages_text">
+                                    {e.content}
+                                </div>
+                            }
                     </div>
-                    </div>
+
                 </li>
                 ))}
             </ul>

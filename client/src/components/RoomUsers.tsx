@@ -1,23 +1,37 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IUser } from "../models/IUser";
+import { IChatGroup } from "../models/IChatGroup";
+import { UserContext } from "../contexts/userContext";
+import socket from "../socket/socket";
 
 interface IUsersInRoomProps {
-  usersInRoom: IUser[];
+  currentRoom: IChatGroup;
 }
 
 export const RoomUsers = (props: IUsersInRoomProps) => {
-  const [isTyping, setIsTyping] = useState<boolean>(false);
-  const typing: string = "...";
-  const setTyping = () => {
-    
-  }
+  const user = useContext<IUser>(UserContext);
+
+  const handleClick = () => {
+    socket.emit("join_group", "lobby-id");
+  };
   return (
     <div className="chat_room_users">
-      <p>I rummet</p>
-      <ul>
-        {props.usersInRoom.map((e, i) => <li key={i}>{e.username}{isTyping ? <span>...</span> : ""}</li>)}
+      <div className="user_info">
+        <h4>Userinfo</h4>
+        <span>Username:{user.username}</span>
+        <span>Rum: {props.currentRoom.name}</span>
         
-      </ul>
+        {props.currentRoom.id !=="lobby-id" ?
+          <button onClick={handleClick}>Till lobby</button> :
+        <></>}
+
+      </div>
+      <div>
+        <p>I rummet</p>
+        <ul>
+          {props.currentRoom.users.map((e, i) => <li key={i}>{e.username}</li>)}
+        </ul>
+      </div>
     </div>
   );
 };
