@@ -110,6 +110,10 @@ export const activateTalkTimeSocket = (io: Server) => {
       if (userInChatGroupIndex !== -1) {
         leavingGroup.users.splice(userInChatGroupIndex, 1);
       }
+      if(leavingGroup.users.length===0 && leavingGroup.id !== LOBBY_ID){
+        const roomIndex = chatGroups.findIndex((g) => g.id === leavingGroup.id);
+        chatGroups.splice(roomIndex,1);
+      }
 
       const id = generateUniqueId();
       const group: IChatGroup = {
