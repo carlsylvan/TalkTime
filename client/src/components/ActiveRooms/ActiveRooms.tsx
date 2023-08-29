@@ -15,9 +15,9 @@ export const ActiveRooms = (props:IActiveRoomsProps) => {
   console.log(props.rooms);
   
   return (
-    <div className="rooms">
+    <div className="active_rooms">
       <CreateRoom></CreateRoom>
-      <div className="active-rooms">
+      <div className="active_rooms_list">
         <p>Aktiva Rum</p>
         <ul>
           {props.rooms.map((e, i) => (
@@ -27,7 +27,7 @@ export const ActiveRooms = (props:IActiveRoomsProps) => {
                 handleClick(e.id);
               }}
             >
-              {e.name} ({e.users.length} personer)
+              {e.name}<span> ({e.users.length} pers.)</span>
             </li>
           ))}
         </ul>

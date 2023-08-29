@@ -12,12 +12,12 @@ export const RoomUsers = (props: IUsersInRoomProps) => {
     
   }
   return (
-    <>
-      <p>Personer i rummet</p>
+    <div className="chat_room_users">
+      <p>I rummet</p>
       <ul>
         {props.usersInRoom.map((e, i) => <li key={i}>{e.username}{isTyping ? <span>...</span> : ""}</li>)}
         
       </ul>
-    </>
+    </div>
   );
 };

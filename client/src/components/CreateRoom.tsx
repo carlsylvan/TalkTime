@@ -29,20 +29,23 @@ export const CreateRoom = () => {
   };
 
   return (
-    <div>
+    <>
       {!createroom ? (
         <button onClick={openForm}>Skapa rum</button>
       ) : (
-        <form className="create-room-form" onSubmit={handleCreateRoom}>
-          <h3>Välj namn på nytt rum</h3>
-          <input
-            value={roomname}
-            onChange={handleCreateRoomInput}
-            type="text"
-          />
-          <button type="submit">Öppna</button>
-        </form>
+        <div className="create_room_form">
+          <button onClick={()=>{setCreateroom(false)}}>stäng</button>
+          <form  onSubmit={handleCreateRoom}>
+            <p>Välj namn på nytt rum</p>
+            <input
+              value={roomname}
+              onChange={handleCreateRoomInput}
+              type="text"
+            />
+            <button type="submit">Öppna</button>
+          </form>
+        </div>
       )}
-    </div>
+    </>
   );
 };

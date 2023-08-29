@@ -7,18 +7,20 @@ import { MessageInput } from "./MessageInput";
 
 interface IMessagesProps {
     messageList: IMessage [],
-    groupId: string
+    groupId: string,
+    roomName: string
 }
 
 export const Messages = (props: IMessagesProps) => {
     const user = useContext<IUser>(UserContext);
 
     return (
-        <div>
+        <div className="chat_room_messages">
             <div>
+                  {/* <p>{props.roomName}</p> */}
                 <ul>
                     {props.messageList.map((e, i) => 
-                    <li key={i} className = { user.id ===e.user.id ? "myMessages" : ""}>
+                    <li key={i} className = { user.id ===e.user.id ? "my_messages" : ""}>
                         <div>
                             <span>
                                 {e.timestamp}
@@ -27,7 +29,9 @@ export const Messages = (props: IMessagesProps) => {
                                 <span>
                                     {e.user.username}
                                 </span>
-                                {e.content}
+                                <div>
+                                    {e.content}
+                                </div>
                             </div>
                         </div>
                     </li>)}

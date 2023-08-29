@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ChatRoom } from "../ChatRoom/ChatRoom";
-import { IChatGroup } from "../../models/IChatGroup";
+import { IChatGroup, IMessage } from "../../models/IChatGroup";
 import socket from "../../socket/socket";
 import "./MainPage.scss";
 import { ActiveRooms } from "../ActiveRooms/ActiveRooms";
@@ -8,46 +8,44 @@ import { ActiveRooms } from "../ActiveRooms/ActiveRooms";
 export const MainPage = () => {
   const [rooms, setrooms] = useState<IChatGroup[]>([]);
 
-  const [groupChat, setGroupChat] = useState<IChatGroup>({
+  const [currentRoom, setCurrentRoom] = useState<IChatGroup>({
     id: "lobby-id",
     name: "Lobby",
     users: [],
     messages: [],
   });
   useEffect(() => {
-    socket.on("joined_lobby", (group:IChatGroup)=> {
-      setGroupChat(group);
+    socket.on("joined_lobby", (room:IChatGroup)=> {
+      setCurrentRoom(room);
     });
     socket.on("chat_groups_update", (rooms: IChatGroup []) => {
       setrooms(rooms);
     });
-    socket.on("user_disconnected", (data: IChatGroup []) => {
-      setrooms(data);
+    socket.on("user_disconnected", (rooms: IChatGroup []) => {
+      setrooms(rooms);
     });
-    socket.on("group_created", (group:IChatGroup) => {
-      setGroupChat(group);
+    socket.on("group_created", (room:IChatGroup) => {
+      setCurrentRoom(room);
     });
-    socket.on("room_updated", (currentRoom) => {
-      setGroupChat(currentRoom);
-    });
-    socket.on("new_group_created", (allGroups: IChatGroup []) => {
-      setrooms(allGroups);
+    socket.on("new_group_created", (rooms: IChatGroup []) => {
+      setrooms(rooms);
     });
     socket.on("user_left", (room) => {
-      setGroupChat(room);
+      setCurrentRoom(room);
     });
     socket.on("new_user_in_room", (room) => {
-      setGroupChat(room);
+      setCurrentRoom(room);
     });
+    socket.on("message_received", (room: IChatGroup) => {
+
+      setCurrentRoom(room);
+    })
   }, []);
 
-  console.log(groupChat);
-  
-  
   return (
-    <div className="main-container">
-        <ActiveRooms rooms = { rooms } groupId = { groupChat.id } />
-        <ChatRoom groupChat = { groupChat } />
+    <div className="main_container">
+        <ActiveRooms rooms = { rooms } groupId = { currentRoom.id } />
+        <ChatRoom currentRoom = { currentRoom } />
     </div>
   );
 };
