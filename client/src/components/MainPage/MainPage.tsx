@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ChatRoom } from "../ChatRoom/ChatRoom";
-import { IChatGroup, IMessage } from "../../models/IChatGroup";
+import { IChatGroup } from "../../models/IChatGroup";
 import socket from "../../socket/socket";
 import "./MainPage.scss";
 import { ActiveRooms } from "../ActiveRooms/ActiveRooms";

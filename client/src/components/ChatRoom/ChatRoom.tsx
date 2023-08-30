@@ -1,11 +1,9 @@
-import { IChatGroup, IMessage } from "../../models/IChatGroup";
+import { IChatGroup } from "../../models/IChatGroup";
 
 import { Messages } from "../Messages";
 
 import { RoomUsers } from "../RoomUsers";
 import "./ChatRoom.scss";
-
-import { TypingIndicator } from "../TypingIndicator";
 
 interface IChatRoomProps {
   currentRoom: IChatGroup;

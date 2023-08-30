@@ -1,5 +1,5 @@
-import { FormEvent, useContext, useState } from "react";
-import { IChatGroup, IMessage } from "../models/IChatGroup";
+import { FormEvent, useState } from "react";
+import { IMessage } from "../models/IChatGroup";
 import socket from "../socket/socket";
 import { getRandomGif } from "../services/gifService";
 interface IMessageInput {
@@ -41,12 +41,12 @@ export const MessageInput = (props: IMessageInput) => {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Skriv här..."
+          placeholder="Type here..."
           value={msg}
           onChange={(e) => setMsg(e.target.value)}
           onKeyDown={handleTyping}
         />
-        <button type="submit">Skicka</button>
+        <button type="submit">Send</button>
         <button onClick={handleRandomGifButton} type="button" className="gif_button">
             GIF
         </button>

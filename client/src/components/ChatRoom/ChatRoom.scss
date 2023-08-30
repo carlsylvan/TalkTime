@@ -22,25 +22,26 @@
             height: 90%;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             padding: 2rem;
-
-            ul {
+            position: relative;
+            
+            .message_list {
                 width: 100%;
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
                 overflow-y: auto;
+                padding-bottom: 1rem;
                 .typing_indicator {
-                    display: flex;
+                    position: absolute;
+                    font-style: italic;
+                    color: gray;
                     width: 100%;
+                    font-size: 12px;
+                    display: flex;
                     justify-content: center;
-                    margin-top: 1rem;
-                    span {
-                        font-style: italic;
-                        color: gray;
-                        font-size: 12px;
-    
-                    }
+                    bottom: 0.5rem;
                 }
                 li {
                     padding: 1rem;

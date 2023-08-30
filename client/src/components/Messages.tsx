@@ -29,7 +29,7 @@ export const Messages = (props: IMessagesProps) => {
   return (
     <div className="chat_room_messages">
       <div className="chat_room_messages_list">
-        <ul>
+        <ul className="message_list">
           {props.messageList.map((e, i) => (
             <li key={i} className={user.id === e.user.id ? "my_messages" : ""}>
               <div>

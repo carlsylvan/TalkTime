@@ -31,18 +31,18 @@ export const CreateRoom = () => {
   return (
     <>
       {!createroom ? (
-        <button onClick={openForm}>Skapa rum</button>
+        <button onClick={openForm}>Create room</button>
       ) : (
         <div className="create_room_form">
-          <button onClick={()=>{setCreateroom(false)}}>stäng</button>
+          <button onClick={()=>{setCreateroom(false)}}>close</button>
           <form  onSubmit={handleCreateRoom}>
-            <p>Välj namn på nytt rum</p>
+            <p>Room name</p>
             <input
               value={roomname}
               onChange={handleCreateRoomInput}
               type="text"
             />
-            <button type="submit">Öppna</button>
+            <button type="submit">Open</button>
           </form>
         </div>
       )}

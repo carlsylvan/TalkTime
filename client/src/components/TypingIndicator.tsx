@@ -21,6 +21,6 @@ export const TypingIndicator = () => {
   }, []);
 
   return isTyping ? (
-    <div className="typing_indicator"><span>Någon skriver ett meddelande...</span></div>
+    <li className="typing_indicator">Somebody is typing...</li>
   ) : null;
 };

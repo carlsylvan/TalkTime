@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { IUser } from "../models/IUser";
 import { IChatGroup } from "../models/IChatGroup";
 import { UserContext } from "../contexts/userContext";
@@ -17,9 +17,9 @@ export const RoomUsers = (props: IUsersInRoomProps) => {
   return (
     <div className="chat_room_users">
       <div className="user_info">
-        <p>Användare</p>
-        <span>Namn:{user.username}</span>
-        <span>Rum: {props.currentRoom.name}</span>
+        <p>User info</p>
+        <span>Nickname:{user.username}</span>
+        <span>Room: {props.currentRoom.name}</span>
         
         {props.currentRoom.id !=="lobby-id" ?
           <button onClick={handleClick}>Till lobby</button> :
@@ -27,7 +27,7 @@ export const RoomUsers = (props: IUsersInRoomProps) => {
 
       </div>
       <div className="room_users">
-        <p>I rummet</p>
+        <p>Users in {props.currentRoom.name}</p>
         <ul>
           {props.currentRoom.users.map((e, i) => <li key={i}>{e.username}</li>)}
         </ul>

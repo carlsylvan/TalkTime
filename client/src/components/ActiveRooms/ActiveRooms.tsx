@@ -36,7 +36,7 @@ export const ActiveRooms = (props:IActiveRoomsProps) => {
   return (
     <div className="active_rooms">
       <div className="active_rooms_list">
-        <p>Aktiva Rum</p>
+        <p>Chat rooms</p>
         <CreateRoom></CreateRoom>
         <ul>
           {props.rooms.map((e, i) => (
@@ -46,16 +46,13 @@ export const ActiveRooms = (props:IActiveRoomsProps) => {
                   handleClick(e.id);
                 }}>gå in</button>
               }
-              {/* <button className="join_button" onClick={() => {
-                handleClick(e.id);
-              }}>gå in</button> */}
               <span>{e.name} ({e.users.length})</span>
             </li>
           ))}
         </ul>
       </div>
       <div className="active_rooms_users">
-        <p>Användare</p>
+        <p>Online</p>
         <ul>
           {allUsers.map((u)=> <li key={u.user.id}>{u.user.username} ({u.room})</li>)}
         </ul>
