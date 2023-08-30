@@ -25,7 +25,7 @@ export const LoginPage = () => {
   return (
     <div className="login-page">
       <form onSubmit={handleJoinTalkTimeButton}>
-        <h3>Välkommen! För att börja chatta välj ditt namn och logga in</h3>
+        <h3>Wellcome to TalkTime chat! Please type your nickname to join!</h3>
         <input value={username} onChange={(e)=>setUsername(e.target.value)} type="text" placeholder="Namn..." />
         <button onClick={handleJoinTalkTimeButton}>Log in</button>
       </form>
