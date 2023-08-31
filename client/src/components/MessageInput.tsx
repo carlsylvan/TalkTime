@@ -8,11 +8,13 @@ export const MessageInput = () => {
   const chat = useContext<IChatContext>(ChatGroupContext);
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    socket.emit("send_message", {
-      groupId: chat.currentRoom.id,
-      content: msg,
-    });
-    setMsg("");
+    if(msg!=="") {
+      socket.emit("send_message", {
+        groupId: chat.currentRoom.id,
+        content: msg,
+      });
+      setMsg("");
+    }
   };
 
   const handleTyping = () => {
