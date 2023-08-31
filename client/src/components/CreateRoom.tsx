@@ -32,7 +32,7 @@ export const CreateRoom = () => {
   return (
     <>
       {!createroom ? (
-        <button onClick={openForm}>Create room</button>
+        <button onClick={openForm} className="create_room_button">Create room</button>
       ) : (
         <div className="create_room_form">
           <button onClick={()=>{setCreateroom(false)}}>close</button>

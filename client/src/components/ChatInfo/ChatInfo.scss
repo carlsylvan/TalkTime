@@ -1,0 +1,120 @@
+.chatinfo {
+    width:20%;
+    display: flex;
+    flex-direction: column; 
+    padding: 5px; 
+    gap: 10px;
+    .create_room_button {
+        width: 100%;
+        height: 50px;
+    }
+    .create_room_form {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
+        padding: 10px 5px;
+        border-radius: 10px;
+        >button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+            padding: 3px;
+            border-radius: 2px;
+            border: none;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            padding: 1rem 5px;
+            p {
+                text-align: center;
+                font-size: 14px;
+                border: none;
+                margin: 0;
+            }
+            button, input {
+                width: 100%;
+                border: none;
+                box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
+                padding: 5px;
+                border-radius: 8px;
+            }
+        }
+    }
+    &_main {
+        display: flex;
+        flex-wrap: wrap;
+        box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.3);
+        border-radius: 10px;
+        flex: 1;
+        overflow: hidden;
+        >button {
+            width: 50%;
+            height: 50px;
+            box-shadow: none;
+
+            &:nth-child(1){
+                border-radius: 10px 0 0 0px;
+            }
+            &:nth-child(2){
+                border-radius: 0 10px 0 0px;
+            }
+        }
+        .pushed {
+            background-color: white;
+        }
+        &_users, &_list {
+            flex: 1;
+            width: 100%;
+            align-items: start;
+            flex-direction: column;
+            display: flex;
+            padding: 1rem 10px;
+            height: 100%;
+            overflow: scroll;
+            ul {
+                padding: 1rem 0;
+                width: 100%;
+                gap: 5px;
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                li {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    margin: 10px 0;
+                    span {
+                        width: 70%;
+                        overflow-wrap: break-word;
+                        font-size: 1rem;
+                        flex: 1;
+                    }
+                    button {
+                        width: 30%;
+                    }
+                }
+            }
+    
+        }
+        &_list {
+            ul {
+                li {
+                    justify-content: space-between;
+                    .join_button, .empty_div {
+                        width: 30%;
+                        min-width: 70px;
+                        padding: 5px;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+}

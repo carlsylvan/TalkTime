@@ -3,7 +3,7 @@ import { ChatRoom } from "../ChatRoom/ChatRoom";
 import { IChatGroup } from "../../models/IChatGroup";
 import socket from "../../socket/socket";
 import "./MainPage.scss";
-import { ActiveRooms } from "../ActiveRooms/ActiveRooms";
+import { ChatInfo } from "../ChatInfo/ChatInfo";
 import { ChatGroupContext } from "../../contexts/chatContext";
 
 export const MainPage = () => {
@@ -46,7 +46,7 @@ export const MainPage = () => {
   return (
     <div className="main_container">
         <ChatGroupContext.Provider value = {{ rooms, currentRoom }}>
-          <ActiveRooms />
+          <ChatInfo />
           <ChatRoom />
         </ChatGroupContext.Provider>
     </div>
