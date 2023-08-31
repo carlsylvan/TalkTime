@@ -31,10 +31,10 @@ export const MainPage = () => {
     socket.on("new_group_created", (rooms: IChatGroup []) => {
       setrooms(rooms);
     });
-    socket.on("user_left", (room) => {
+    socket.on("user_left", (room:IChatGroup) => {
       setCurrentRoom(room);
     });
-    socket.on("new_user_in_room", (room) => {
+    socket.on("new_user_in_room", (room:IChatGroup) => {
       setCurrentRoom(room);
     });
     socket.on("message_received", (room: IChatGroup) => {

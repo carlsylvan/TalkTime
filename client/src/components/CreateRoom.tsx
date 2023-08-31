@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import socket from "../socket/socket";
 import { useNavigate } from "react-router-dom";
+import { IChatGroup } from "../models/IChatGroup";
 
 export const CreateRoom = () => {
   const [roomname, setRoomname] = useState<string>("");
@@ -8,7 +9,7 @@ export const CreateRoom = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    socket.on("group_created", (group) => {
+    socket.on("group_created", (group:IChatGroup) => {
       navigate(`/${group.name}/${group.id}`);
     });
   }, [navigate]);
