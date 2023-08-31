@@ -7,6 +7,7 @@
     .create_room_button {
         width: 100%;
         height: 50px;
+        border-radius: 10px;
     }
     .create_room_form {
         position: relative;
@@ -74,8 +75,8 @@
             align-items: start;
             flex-direction: column;
             display: flex;
-            padding: 1rem 10px;
             height: 100%;
+            padding: 0 1rem;
             overflow: scroll;
             ul {
                 padding: 1rem 0;
