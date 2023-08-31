@@ -45,6 +45,7 @@ export const MainPage = () => {
 
   return (
     <div className="main_container">
+        <h1>TalkTime Chat</h1>
         <ChatGroupContext.Provider value = {{ rooms, currentRoom }}>
           <ChatInfo />
           <ChatRoom />

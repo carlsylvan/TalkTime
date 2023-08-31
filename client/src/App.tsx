@@ -20,7 +20,6 @@ function App() {
   }, [socket]);
   return (
     <>
-      <h1>TalkTime Chat</h1>
       <UserContext.Provider value={user}>
         <Outlet></Outlet>
       </UserContext.Provider>
