@@ -1,16 +1,12 @@
 import { useContext } from "react";
 import { IUser } from "../models/IUser";
-import { IChatGroup } from "../models/IChatGroup";
 import { UserContext } from "../contexts/userContext";
 import socket from "../socket/socket";
+import { IChatContext, ChatGroupContext } from "../contexts/chatContext";
 
-interface IUsersInRoomProps {
-  currentRoom: IChatGroup;
-}
-
-export const RoomUsers = (props: IUsersInRoomProps) => {
+export const RoomUsers = () => {
   const user = useContext<IUser>(UserContext);
-
+  const chat = useContext<IChatContext>(ChatGroupContext);
   const handleClick = () => {
     socket.emit("join_group", "lobby-id");
   };
@@ -19,17 +15,17 @@ export const RoomUsers = (props: IUsersInRoomProps) => {
       <div className="user_info">
         <p>User info</p>
         <span>Nickname:{user.username}</span>
-        <span>Room: {props.currentRoom.name}</span>
+        <span>Room: {chat.currentRoom.name}</span>
         
-        {props.currentRoom.id !=="lobby-id" ?
+        {chat.currentRoom.id !=="lobby-id" ?
           <button onClick={handleClick}>Till lobby</button> :
         <></>}
 
       </div>
       <div className="room_users">
-        <p>Users in {props.currentRoom.name}</p>
+        <p>Users in {chat.currentRoom.name}</p>
         <ul>
-          {props.currentRoom.users.map((e, i) => <li key={i}>{e.username}</li>)}
+          {chat.currentRoom.users.map((e, i) => <li key={i}>{e.username}</li>)}
         </ul>
       </div>
     </div>

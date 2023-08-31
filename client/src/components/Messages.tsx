@@ -1,19 +1,13 @@
 import { useContext, useEffect, useRef } from "react";
 import { UserContext } from "../contexts/userContext";
-import { IMessage } from "../models/IChatGroup";
 import { IUser } from "../models/IUser";
 import { MessageInput } from "./MessageInput";
 import { TypingIndicator } from "./TypingIndicator";
+import { ChatGroupContext, IChatContext } from "../contexts/chatContext";
 
-interface IMessagesProps {
-  messageList: IMessage[];
-  groupId: string;
-  roomName: string;
-}
-
-export const Messages = (props: IMessagesProps) => {
+export const Messages = () => {
   const user = useContext<IUser>(UserContext);
-
+  const chat = useContext<IChatContext>(ChatGroupContext);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -24,13 +18,13 @@ export const Messages = (props: IMessagesProps) => {
 
   useEffect(() => {
     setTimeout(scrollToBottom, 100);
-  }, [props.messageList]);
+  }, [chat.currentRoom.messages]);
 
   return (
     <div className="chat_room_messages">
       <div className="chat_room_messages_list">
         <ul className="message_list">
-          {props.messageList.map((e, i) => (
+          {chat.currentRoom.messages.map((e, i) => (
             <li key={i} className={user.id === e.user.id ? "my_messages" : ""}>
               <div>
                 <span>
@@ -54,7 +48,7 @@ export const Messages = (props: IMessagesProps) => {
           <TypingIndicator />
         </ul>
       </div>
-      <MessageInput messageList={props.messageList} groupId={props.groupId} />
+      <MessageInput />
     </div>
   );
 };

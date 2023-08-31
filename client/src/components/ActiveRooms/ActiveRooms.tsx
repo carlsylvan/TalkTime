@@ -1,36 +1,35 @@
 import { CreateRoom } from "../CreateRoom";
 import "./ActiveRooms.scss";
-import { IChatGroup } from "../../models/IChatGroup";
 import socket from "../../socket/socket";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IUser } from "../../models/IUser";
+import { ChatGroupContext, IChatContext } from "../../contexts/chatContext";
 
 
-interface IActiveRoomsProps {
-    rooms: IChatGroup [],
-    groupId: string
-}
 interface IActiveUser {
   user: IUser,
   room: string
 }
-export const ActiveRooms = (props:IActiveRoomsProps) => {
+export const ActiveRooms = () => {
   const [allUsers, setAllUsers] = useState<IActiveUser[]>([]);
+
+  const chat = useContext<IChatContext>(ChatGroupContext);
+
   const handleClick = (groupId: string) => {
-    if(groupId === props.groupId) return;
+    if(groupId === chat.currentRoom.id) return;
     socket.emit("join_group", groupId);
   };
   
   useEffect(()=>{
     const activeUserList: IActiveUser [] = [];
-    props.rooms.map((r)=> {
+    chat.rooms.map((r)=> {
       r.users.map((u)=>{
         const userObject:IActiveUser = {user: u, room: r.name};
         activeUserList.push(userObject);
       });
     });
     setAllUsers(activeUserList);
-  },[props.rooms])
+  },[chat.rooms])
 
 
   return (
@@ -39,9 +38,9 @@ export const ActiveRooms = (props:IActiveRoomsProps) => {
         <p>Chat rooms</p>
         <CreateRoom></CreateRoom>
         <ul>
-          {props.rooms.map((e, i) => (
+          {chat.rooms.map((e, i) => (
             <li key={i}>
-              {e.id === props.groupId ? <div className="empty_div"></div> :
+              {e.id === chat.currentRoom.id ? <div className="empty_div"></div> :
                 <button className="join_button" onClick={() => {
                   handleClick(e.id);
                 }}>gå in</button>

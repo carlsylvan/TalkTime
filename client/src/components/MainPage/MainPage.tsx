@@ -4,6 +4,7 @@ import { IChatGroup } from "../../models/IChatGroup";
 import socket from "../../socket/socket";
 import "./MainPage.scss";
 import { ActiveRooms } from "../ActiveRooms/ActiveRooms";
+import { ChatGroupContext } from "../../contexts/chatContext";
 
 export const MainPage = () => {
   const [rooms, setrooms] = useState<IChatGroup[]>([]);
@@ -44,8 +45,10 @@ export const MainPage = () => {
 
   return (
     <div className="main_container">
-        <ActiveRooms rooms = { rooms } groupId = { currentRoom.id } />
-        <ChatRoom currentRoom = { currentRoom } />
+        <ChatGroupContext.Provider value = {{ rooms, currentRoom }}>
+          <ActiveRooms />
+          <ChatRoom />
+        </ChatGroupContext.Provider>
     </div>
   );
 };

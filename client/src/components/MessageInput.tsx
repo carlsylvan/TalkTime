@@ -1,24 +1,22 @@
-import { FormEvent, useState } from "react";
-import { IMessage } from "../models/IChatGroup";
+import { FormEvent, useContext, useState } from "react";
 import socket from "../socket/socket";
 import { getRandomGif } from "../services/gifService";
-interface IMessageInput {
-  groupId: string;
-  messageList: IMessage[];
-}
-export const MessageInput = (props: IMessageInput) => {
+import { IChatContext, ChatGroupContext } from "../contexts/chatContext";
+
+export const MessageInput = () => {
   const [msg, setMsg] = useState<string>("");
+  const chat = useContext<IChatContext>(ChatGroupContext);
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     socket.emit("send_message", {
-      groupId: props.groupId,
+      groupId: chat.currentRoom.id,
       content: msg,
     });
     setMsg("");
   };
 
   const handleTyping = () => {
-    socket.emit("typing", props.groupId);
+    socket.emit("typing", chat.currentRoom.id);
   };
 
   const handleRandomGifButton = async () => {
@@ -27,7 +25,7 @@ export const MessageInput = (props: IMessageInput) => {
       const gifUrl = response.data.images.fixed_height.url;
 
       socket.emit("send_message", {
-        groupId: props.groupId,
+        groupId: chat.currentRoom.id,
         content: gifUrl,
         isGif: true,
       });
